@@ -1,203 +1,789 @@
 # Site Manager Guide
 
-This guide covers all sections of the admin dashboard available to site managers.
+What a site manager can do in epontez, and where the limits are.
+
+> **Anchors are stable** and shared with the other guides: a topic has the same
+> `id` here as in `admin_wiki_en.md` and in the Romanian versions. Link to
+> `site_manager_wiki_en.md#clock-calendar` and it resolves to the same topic.
+
+**Contents** — [What a site manager is](#role) · [Logging in](#login) ·
+[Navigation](#navigation) · [Status](#status) · [Clock](#clock) ·
+[Employees](#employees) · [Program](#program) · [Planning](#planning) ·
+[Sites](#sites) · [Incidents](#incidents) · [Partners](#partners) ·
+[Timesheets](#timesheets) · [Time off](#timeoff) · [Terminals](#terminals) ·
+[Plan](#plan) · [Your password](#password)
 
 ---
 
-## What is a Site Manager?
+<a id="role"></a>
 
-A site manager is a restricted admin account created by your company administrator. Unlike a full admin, you can only see and manage the employees and data belonging to the sites you have been assigned. The pages you can access are configured by your admin — you may see some or all of: **Status (Dashboard), Clock, Employees, Sites, Timesheets, Time off, Plan**.
+## What a site manager is
+
+A restricted administrator. Two separate things decide what you see.
+
+**1. Your sites.** An administrator assigns you one or more sites, and your data
+is scoped to them — employees whose default site is one of yours, their
+clockings, their leave.
+
+**2. Your sections.** The same administrator ticks which of the ten sections you
+may open. The default is **Clocking** and **Employees** only, so if a section
+named below is missing from your navigation bar, it has not been granted and that
+part of this guide does not apply to you.
+
+Three limits apply **whatever** you have been granted:
+
+| Limit | Why |
+|---|---|
+| **Settings cannot be opened** | It is where site managers are created |
+| **No timesheet downloads** — PDF, Excel or payroll CSV | The payroll file contains hourly rates. Enforced on the server, not by hiding a button |
+| **No employee CSV import** | It writes company-wide and can change who is active, escaping the site scoping everything else applies. Export still works |
+
+A fourth may apply: if **partner visibility** is switched off for your account,
+you see only employees who are **not** linked to a partner.
+
+Two sections carry company-wide power when granted, so they may not be:
+**Program** (roles and shifts affect everyone) and **Terminals** (a reader's site
+binding decides where punches land).
 
 ---
 
-## Logging In
+<a id="login"></a>
 
-Navigate to `/login` and enter your email and password. If your account has been deactivated, contact your company administrator.
+## Logging in
 
-To recover a forgotten password, use the **Forgot password?** link. You will receive a reset email valid for a limited time.
+Go to `/login` with your email and password.
+
+- **Forgotten password** — *Forgot password?* emails a single-use link valid for
+  a limited time.
+- **Deactivated account** — you get a specific message, and a password reset will
+  not help. Ask an administrator to reactivate you.
+- Changing your password ends your sessions in other browsers.
+
+A language picker — **English, Romanian, German** — is in the top-right corner.
 
 ---
+
+<a id="navigation"></a>
 
 ## Navigation
 
-The top navigation bar shows only the sections your admin has enabled for your account. The active section is highlighted. A language picker (EN/RO) is available in the top-right corner. Your name and a sign-out option appear in the bottom bar.
+Only your granted sections appear:
+
+| English | Romanian |
+|---|---|
+| Dashboard | Status |
+| Clock | Pontaj |
+| Employees | Angajați |
+| Schedules | Program |
+| Sites | Șantiere / Sedii |
+| Partners | Parteneri |
+| Timesheets | Fișe pontaj |
+| Time off | Concedii |
+| Terminals | Terminale |
+| Plan | Plan |
+
+Some Romanian companies are set up to say **sediu** instead of **șantier**
+throughout, so your screens may differ from a colleague's elsewhere.
+
+Your name, *Change password* and *Sign out* are in the bottom bar.
 
 ---
+
+<a id="status"></a>
 
 ## Status (Dashboard)
 
-> Only visible if your admin has granted you access to the **Status** section.
+Today at a glance, **for your sites only**.
 
-Shows an at-a-glance overview of the employees at your assigned sites.
+- **Clocked in today** — distinct employees with a valid clocking today
+- **Hours this month** — completed hours so far, after the break schedule
+- **Clocked in now** — open clock-ins at this moment
+- **Active employees** — headcount in your scope
 
-**What you see:**
-- A list of your assigned sites with a clickable map link (if coordinates are set) and the count of employees currently clocked in at each site.
-- **Clocked in today** — distinct employees with any clock event today at your sites.
-- **Hours this month** — total completed hours for the current month across your sites.
-- **Clocked in now** — employees with an open clock-in right now.
-- **Active employees** — count of active employees whose default site is one of your assigned sites.
-- **Not clocked in last 5 working days** — employees in your sites who have had no clock event in the last 5 working days.
-- **Time off today** — employees in your sites with an approved or pending time-off request today.
-- **30-day charts** — daily people and hours trends, broken down by site.
-- **Currently clocked in table** — employees actively clocked in right now, showing clock-in time and note.
+Click the third-row cards to expand: **Not clocked in last 5 working days**, and
+**Time off today**.
 
-If you have no sites assigned yet, the page shows a notice until your admin assigns sites to your account.
+Charts cover the last 30 days, one colour per site. **Currently clocked in** lists
+open clock-ins with their times and notes.
+
+**Missed clock-outs** warns about anyone whose clock-in is still open from a
+previous day — usually a forgotten punch on the way out.
 
 ---
 
-## Clock
+<a id="clock"></a>
 
-Record and manage clock-in and clock-out events for the employees at your assigned sites.
+## Clock (Pontaj)
 
-### Views
+> At least one active site must exist before anyone can be clocked in.
 
-Toggle between **Calendar** and **Table** views using the button in the top-right area.
+Employees are grouped into sections by their default site, ordered
+**alphabetically** and always in the same place. Names containing numbers sort
+naturally, so *Sediu T5* comes before *Sediu T13*.
+
+<a id="clock-visiting"></a>
+
+### Someone who worked at another site
+
+An employee who clocked somewhere other than their default site — typically by
+presenting a finger at that site's terminal — appears **twice**: under their own
+site, and under the site they worked at, badged **(visiting)**.
+
+- Either row acts on the same person.
+- The badge only appears when they *have* a default site to be away from.
+- Each row shows only its own section's clockings, so a site never appears to
+  have work that happened elsewhere.
+- A row for somebody currently clocked in elsewhere reads as not clocked, with a
+  muted note, and its button is disabled.
+
+<a id="clock-calendar"></a>
 
 ### Calendar view
 
-A grid with one column per employee (from your assigned sites) and one row per day. Each cell shows the employee's clock events for that day:
+One column per employee, one row per day.
 
-- A completed event shows **HH:mm – HH:mm** — click to edit it.
-- An ongoing event shows **HH:mm –** — click to clock out or edit.
-- A time-off day shows a striped diagonal pattern — click to cancel the request (with an optional note).
-- Cells outside the editable window are greyed out.
+| Cell | Meaning |
+|---|---|
+| **HH:mm – HH:mm** | Finished — click to edit |
+| **HH:mm –** | Still clocked in — click to clock out or edit |
+| Diagonal stripes | Time off |
+| Greyed out | Outside the editable window an administrator has set |
 
-**Selecting cells for bulk actions** — click individual cells to select them, then choose an action from the toolbar: **Clock In**, **Clock Out**, **Final** (sets both in and out for a past day), or **Time Off**.
+<a id="clock-colours"></a>
+
+### What the colours mean
+
+| Colour | Meaning |
+|---|---|
+| **Green** | An ordinary day |
+| **Purple** | Beyond the plan — see below |
+| **Pink / amber** | Weekend / public holiday |
+| **Yellow corner triangle** | In after the shift started, or out before it ended |
+
+**Purple** means overtime against the company work schedule, weekend or holiday
+hours, **or** work outside the assigned shift — in more than **15 minutes** early,
+or out more than 15 minutes late.
+
+On a day with no shift assigned, that last rule is measured against **the widest
+window that employee's role ever works**, so somebody on an unrostered late shift
+is not flagged merely for being outside the morning one.
+
+Purple means *more* than planned; arriving late or leaving early shows the
+**yellow triangle** instead. Hover a cell and the tooltip says which applies.
+
+<a id="clock-select"></a>
+
+### Selecting cells
+
+Click cells to select (they highlight blue), then choose **Clock in**, **Clock
+out**, **Final** (both ends of a past day) or **Time off**. Days on approved leave
+and people already clocked in are not selectable.
+
+An **invalidated** clocking is not attendance and is ignored by the calendar, the
+row status, selection and the summary counts. An *open* event still counts as in
+progress, since that is the only way to clock the person out.
+
+<a id="clock-table"></a>
 
 ### Table view
 
-A list showing each employee's current status, last clock-in time, site, and note.
+A list per site with status, last clock-in, site and note. **Clock in** takes a
+site (their default is pre-selected) and an optional note; **Clock out** takes a
+note. The pills above each table count **Completed**, **In progress** and **Not
+clocked**.
 
-- **Clock in** — select site, optional note, confirm.
-- **Clock out** — optional note, confirm.
+<a id="clock-manual"></a>
 
-### Adding a manual clock event
+### Adding a clocking by hand
 
-Use the **+ Add clock** button to record a historical entry. Set employee, clock-in time, optional clock-out time, site, and note. This is useful for correcting missed punches.
+**+ Add clocking** records a historical entry — the fix for a missed punch. Set
+the clock-in, optionally the clock-out, the site and a note.
 
-### Edit day modal (calendar view)
+<a id="clock-shift-times"></a>
 
-Clicking a completed-event cell opens an edit dialog. The **Existing note** is shown read-only; use the **Append note** field to add text — an audit stamp (your name + timestamp) is appended automatically on save.
+### Filling times from a shift
+
+A row of **shift chips** appears above the time fields — `Tura B · 08:00–16:00` —
+listing shifts belonging to the selected employees' roles. Click one and the times
+fill in, still editable. An overnight shift's clock-out lands on the next day. If
+your company defines no shifts, no chips appear and the fields fall back to the
+company work schedule or 08:00–17:00.
+
+<a id="clock-edit"></a>
+
+### Editing a day
+
+Clicking a finished cell opens the edit dialog; pick the clocking if there are
+several. You can correct both times. The **existing note is read-only** — write in
+**Append note**, and your name and the time are stamped automatically. Notes are
+only added to, never overwritten.
+
+<a id="clock-bulk"></a>
+
+### Bulk actions
+
+| Type | What it does |
+|---|---|
+| Clock in | A clock-in on each selected day |
+| Clock out | Closes the open clock-in on each day |
+| Final | Both ends on each day |
+| Time off | A leave request per day |
+
+One site, time(s) and note for the batch. Conflicts are reported before anything
+is saved.
+
+<a id="clock-lock"></a>
+
+### The red lock banner
+
+If an administrator has locked clocking, a red banner appears: bulk clocking is
+limited to today and past-day edits are refused. This usually means the month has
+gone to payroll.
 
 ---
+
+<a id="employees"></a>
 
 ## Employees
 
-View and manage employees whose default site is one of your assigned sites.
+Employees whose default site is one of yours, grouped by site.
 
-> CSV import is not available for site managers.
+<a id="employees-filter"></a>
 
 ### Filtering
 
-Use the filter pills — **Active / Inactive / All** — to narrow the list. If your admin has enabled partner visibility for your account, a partner dropdown filter also appears.
+Pills — **Active / Inactive / All** — plus a partner dropdown if partners exist
+and you are allowed to see them. Both persist in the URL.
+
+<a id="employees-columns"></a>
+
+### Columns adjust themselves
+
+**A column no employee uses is hidden.** If nobody has an hourly rate, there is no
+Hourly rate column. Name, Status, Created and Actions always show. A note under
+the tables names what is hidden and how to bring it back. The set does not change
+as you switch the Active/Inactive/All pill.
+
+<a id="employees-fingerprint"></a>
+
+### The Fingerprint column
+
+| Shown | Meaning |
+|---|---|
+| **Off** | Not allowed to register a device |
+| **Enrolment pending** (amber) | Allowed, nothing registered — **their PIN still clocks them in** |
+| **2 devices** | Registered, and their PIN **no longer works for clocking** |
+
+<a id="employees-add"></a>
 
 ### Adding an employee
 
-Click **Add employee** and fill in name, position, optional email/phone/PIN, and default site (pre-filled to your first assigned site).
+**Last name** and **First name** are required. Then role, email, phone, date of
+birth, default site, partner, hourly rate, annual leave days, and a **kiosk PIN**
+(4–6 digits, optional, settable later). A duplicate name in the company is
+refused.
+
+> To move an existing employee to another site, use **Transfer** on the list, not
+> this form.
+
+<a id="employees-edit"></a>
 
 ### Editing an employee
 
-Click **Edit** to open the employee's edit page. You can update name, position, email, phone, date of birth, default site, PIN, auto-clock settings, and auto-locate. If your admin has enabled **View/Manage Partners** for your account, you can also view and update the employee's partner assignment.
+- **System ID** is read-only and is the only identifier an employee has.
+- **Name** is editable only within **48 hours** of creation, because exports match
+  on it.
+- **Active** requires a **Reason**, written to the activity log with your name and
+  the date.
+- **Auto-clock** creates that day's clocking automatically — needs a site, start
+  and end; weekdays only, skipping anyone already clocked or on approved leave.
+- **Auto-locate** captures GPS at kiosk clock-in. **With it on, coordinates are
+  mandatory** — somebody who blocks location cannot clock in.
+- **Kiosk PIN** can be set or cleared.
+- **Erase location data** strips GPS from this employee's clockings for a GDPR
+  request, keeping the clockings.
 
-**Status changes** (Active / Inactive) require a reason, which is appended to the employee's audit notes.
+<a id="employees-passkey"></a>
 
-**Danger zone** (inactive employees only) — a **Hide employee** button makes the employee invisible; only a super admin can unhide.
+### Fingerprint sign-in on the employee's own phone
 
-### PDF download
+Switching **Fingerprint** on lets an employee sign in at the kiosk with their own
+phone's sensor. Registration needs **two factors**: their PIN *and* a single-use
+code you issue here, shown **once**. The employee then opens `/kiosk`, chooses
+*Set up fingerprint on this device*, and enters both.
 
-**↓ PDF** downloads a landscape A4 employee list for your sites.
+- **Once a device is registered their PIN stops working for clocking**, though it
+  still works for viewing hours and requesting leave. A PIN can be shared; a
+  fingerprint cannot.
+- **Switching Fingerprint off deletes every registered device** — a revocation,
+  not a pause.
+- **Revoking one device restores their PIN at once** — the way back in for a lost
+  phone, along with you clocking them from the dashboard.
+- It is designed for **personal phones**. On a shared tablet any enrolled finger
+  unlocks any passkey on it, so it would not stop one worker clocking in another.
+
+<a id="employees-csv"></a>
+
+### CSV export
+
+**Export** gives Active, Inactive or All with fixed English machine headers.
+
+> **Import is not available to site managers.** It writes company-wide and can
+> change who is active, which would escape your site scoping.
+
+<a id="employees-pdf"></a>
+
+### PDF
+
+**↓ PDF** downloads your active employees grouped by site.
 
 ---
 
-## Sites
+<a id="program"></a>
 
-> Only visible if your admin has granted you access to the **Sites** section.
+## Program (Schedules)
 
-Shows the sites you have been assigned. You can view site details, edit address and location, and manage the auto clock-out configuration.
+Only if granted — this section affects the whole company, not just your sites.
 
-Every change is recorded in the site's audit history (what changed, when, and by whom).
+<a id="program-roles"></a>
+
+### Roles (funcții)
+
+The company's job titles, each showing its shifts and how many employees hold it.
+Add, rename (a rename onto an existing name offers to **merge**), or deactivate.
+A delete is refused while anybody holds the role. An amber card lists active
+employees with **no role**, which is worth clearing because a role is what
+connects somebody to shifts.
+
+<a id="program-shifts"></a>
+
+### The shift library
+
+Shifts belong to the **company**, and a role may run several while a shift may
+serve several roles. Create the shift once, then attach it to roles from either
+side.
+
+- An end at or before the start means the shift **crosses midnight**; allowed, and
+  badged *overnight*.
+- Two shifts may share a name — pickers show `name · 07:00–16:00`. Only the same
+  name **and** the same hours is refused.
+- Shifts are **informational**: no hours, overtime or cost arithmetic reads one.
+  They drive the rota, the adherence marks and the PONTAJ sheets.
+- Nobody has a permanent shift; it is a **per-day** fact set in
+  [Planning](#planning).
+- Deleting a shift deletes its dated assignments, so those days go blank.
+
+<a id="program-export"></a>
+
+### The PONTAJ export
+
+The month picker, the green **Excel** button and two filters are in the header:
+**Role** (*All roles* by default) and **Partner** (*No partner* by **default**,
+or *All partners*, or one).
+
+> The partner default **excludes collaborators**, because a PONTAJ sheet is a
+> payroll document for your own staff. Check which you have selected before
+> sending the file on.
+
+Two sheets in identical layouts: **Program**, the plan for the month; and
+**Pontaj**, the same plan truncated at today and annotated with attendance — a
+scheduled day nobody worked books **0 hours** and is drawn dark red with an
+*Absent* note. Both report **planned** times; a day with nothing rostered is blank
+in both even if somebody clocked. Headings are always Romanian, because the file's
+shape is a contract with whoever receives it. Approved leave writes its code into
+*Inceput* and books 0 hours. Capped at 450 employees.
 
 ---
 
-## Timesheets
+<a id="planning"></a>
 
-> Only visible if your admin has granted you access to the **Timesheets** section.
+## Planning (the rota)
 
-Monthly clock data for employees at your assigned sites.
+Reached from **Planning** on a role in Program. Granted with Program.
 
-### Navigating months
+<a id="planning-grid"></a>
 
-Use the month selector to switch between months.
+### The grid
 
-### Filters
+Employees down the side, days across the top — the shape that answers *is every
+night covered?*. Each shift has a stable colour, weekends are pink, holidays
+amber, and a purple **✓** marks a day worked with **nothing rostered**. An **All
+roles** option shows everyone, with each shift listed once in the legend.
 
-- **Site** — narrow to a specific assigned site
-- **Employee** — show a single employee
-- **Partner** — filter by partner (if partner visibility is enabled for your account)
+<a id="planning-assign"></a>
+
+### Assigning a shift
+
+Click a cell, or use From/To for a range.
+
+- **A range is split into runs of working days** — 2–13 February becomes two
+  assignments, leaving weekends and holidays blank unless you tick *include
+  non-working days*.
+- **A single day is always honoured as-is**, which is how you put somebody on a
+  Saturday.
+- An **open-ended** assignment covers every day, weekends included, since there is
+  no last day to stop at.
+- **Overlaps are reshaped, not refused**: nights from the 10th end an open-ended
+  morning assignment on the 9th.
+- You get a **preview** and a confirmation whenever anything would change.
+
+<a id="planning-switch"></a>
+
+### Swapping two people for one day
+
+On a single day, **Switch shift** lists colleagues on a different shift that day.
+A swap carves out a **single day** each, leaves the rest of both rotas untouched,
+and marks both **Switched** with a note naming who did it and with whom. The two
+must hold the same role and be on different shifts that day. A switched day is
+never overwritten by automatic shift detection.
+
+<a id="planning-clear"></a>
+
+### Clearing a day
+
+**Clear this day** carves one day out of the surrounding assignment, splitting it
+if the day is in the middle. It does not restore anything reshaped earlier.
+
+<a id="planning-timeoff"></a>
+
+### Allocating leave from the rota
+
+**Allocate time off** covers a range across several employees; inside the cell
+dialog a **Shift / Time off** toggle covers the day you clicked. A day already on
+approved leave offers **Remove time off**, which **cancels** rather than deletes —
+the audit trail survives and the shift underneath returns by itself. You may
+assign a shift to a day already on leave; the rota underneath is still being
+edited.
+
+<a id="planning-table"></a>
+
+### The table under the grid
+
+One row per **scheduled day** — `Employee | Shift | Day | In | Out | Status |
+Note`, where In and Out are that day's first clock-in and last clock-out.
+
+**The table stops at today** while the grid shows the whole month: every column
+except Shift reports what happened, and a future day has none of it. A past month
+is complete; a future month shows an empty table and a full grid. Clicking a
+future cell in the grid still opens the assign dialog.
+
+| Tint | Meaning |
+|---|---|
+| **Red** | The plan was broken — in late, out early, or no clocking on a day whose shift was already due |
+| **Purple** | There was no plan — **Unplanned**, offering *Assign shift* |
+
+"Already due" means the day is past, or it is today and the start time has passed.
+Approved leave is not absence and outranks both.
+
+---
+
+<a id="sites"></a>
+
+## Sites (Șantiere / Sedii)
+
+Your assigned sites.
+
+<a id="sites-coords"></a>
+
+### Coordinates
+
+A site's map pin is what makes the on-site check possible. Without it a clock-in
+can never be judged, however tight the radius, so those rows are badged amber **No
+coordinates**. Being off-site is **recorded, not blocked** — evidence for whoever
+reviews the timesheet, not a gate on clocking in.
+
+<a id="sites-autoclockout"></a>
+
+### Per-site auto clock-out
+
+A time at which anyone still clocked in at that site is clocked out. It takes
+priority over the company-wide rule.
+
+<a id="sites-status"></a>
+
+### Active, inactive, hidden
+
+Pills filter **Active / Inactive / All**. A site must be inactive before it can be
+hidden, and **only a super admin can unhide** one. Every change appends an audit
+line to the site's notes.
+
+---
+
+<a id="incidents"></a>
+
+## Incidents
+
+A per-site register for Legea 319/2006, available to every role that can see
+Sites.
+
+<a id="incidents-add"></a>
+
+### Logging an incident
+
+| Field | Options |
+|---|---|
+| **Type** | Accident · Near miss · Dangerous occurrence · Occupational disease |
+| **Severity** | Minor · Moderate · Serious · Fatal |
+| **Date of incident** / **Date logged** | When it happened / was recorded |
+| **Description** | Required |
+| **Employees involved** | From the employees assigned to that site |
+| Witnesses, Corrective actions | Optional |
+| **Reported to authorities** | Yes/no |
+
+<a id="incidents-pdf"></a>
+
+### The register PDF
+
+**Incidents PDF** takes a month and produces a landscape A4 register for that site
+and month, telling you if there is nothing to report rather than producing an
+empty file.
+
+---
+
+<a id="partners"></a>
+
+## Partners
+
+Only if granted. Collaborator companies, with each one's sites as sub-rows.
+
+Linking an employee to a partner has two consequences: **they cannot request time
+off** (that is their own employer's business, refused in both the dashboard and
+the kiosk), and **their leave balance fields are disabled**.
+
+Note that the **partner filter** on the employees and clock pages filters
+*employees*, not pages — separate from whether you can open this section. If
+partner visibility is off for your account, you see only employees with no
+partner.
+
+---
+
+<a id="timesheets"></a>
+
+## Timesheets (Fișe pontaj)
+
+Only if granted. Hours a month at a time, for your sites.
+
+<a id="timesheets-filters"></a>
+
+### Choosing what you see
+
+Month picker plus filters for **site**, **employee** and **partner**.
+
+<a id="timesheets-read"></a>
 
 ### Reading the table
 
-Each employee has a section with daily rows. Columns: Date, Day, In, Out, Hours, Site, Clocked in by, Clocked out by, Note.
+Each employee is a block of their clockings with daily subtotals and a monthly
+total.
 
-Special indicators:
-- **Auto** pill — the event was created by the auto-clock cron
-- **📍 pin** — GPS coordinates were captured at clock-in
-- **Void** badge — the event is marked invalid and excluded from totals
+| Marker | Meaning |
+|---|---|
+| **Auto** pill | Created by the auto-clock job |
+| **Purple row** | Overtime, weekend, holiday, or outside the assigned shift — the [same rules](#clock-colours) as the calendar |
+| Struck through | Marked invalid; not counted |
+| Partner badge | Linked to a collaborator |
 
-### Editing a clock event
+<a id="timesheets-gps"></a>
 
-Click the pencil icon on any row to open the edit dialog. You can correct clock-in / clock-out times, toggle the **Valid** flag, and append a note. An audit stamp is appended automatically on save.
+### Location pins
 
-### Calendar view
+A shift carries **two** positions, so a row can show **In** and **Out** pins, each
+linking to OpenStreetMap at that point.
 
-Switch to the calendar view for a visual month grid. Clicking a completed-event cell opens an edit dialog with the same append-note capability. Clicking a time-off cell opens a cancel dialog.
+| Pin | Meaning |
+|---|---|
+| **Green** | On site |
+| **Red** | Off site |
+| **Grey** | A position exists but the site had no coordinates to judge it against |
+| No pin | No position captured |
 
-> **Note:** Downloading the PDF timesheet is not available for site managers.
+**The verdict is frozen at the moment of clocking** — changing the radius later
+affects new clockings only. Coordinates are erased after 180 days, or on demand
+from the employee's page.
+
+<a id="timesheets-edit"></a>
+
+### Correcting a clocking
+
+Click a row to fix its times or mark it invalid. Notes are append-only with an
+audit stamp. Re-validating an invalid entry re-runs the overlap check.
+
+<a id="timesheets-download"></a>
+
+### Downloads
+
+> **Not available to site managers.** The PDF, Excel and payroll CSV are all
+> refused for this role, because the payroll file contains hourly rates. This is
+> enforced on the server, so a direct link will not work either. Ask an
+> administrator for the file.
 
 ---
 
-## Time Off
+<a id="timeoff"></a>
 
-> Only visible if your admin has granted you access to the **Time off** section.
+## Time off (Concedii)
 
-Review, approve, and manage time-off requests for employees at your assigned sites.
+Only if granted. A pending request puts an asterisk on the nav tab.
 
-### Leave types
+<a id="timeoff-types"></a>
 
-| Code | Description |
-|------|-------------|
-| CO | Paid annual leave |
-| CFP | Unpaid leave |
-| Medical | Sick leave / medical certificate |
-| Marriage | Marriage event |
-| Blood donation | Blood donation day |
-| Special events | Other special events |
-| Military | Military service |
-| Funeral | Bereavement |
-| Child birth | Parental leave |
+### Types
 
-### Navigating and filtering
+`CO` annual leave · `CFP` unpaid · `MEDICAL` sick · `MARRIAGE` · `BLOOD_DONATION`
+· `SPECIAL_EVENTS` · `MILITARY` · `FUNERAL` · `CHILD_BIRTH` · `EXCUSED` ·
+`ABSENT`.
 
-Use the **month selector** to navigate. Months with pending requests are highlighted so you can jump to them quickly. A **type** dropdown filters by leave category.
+<a id="timeoff-read"></a>
+
+### Reading the table
+
+Leave is stored **one row per working day**, so there are separate **Date**,
+**Day** and **Days** columns and the summary pills count working days. A request
+spanning a weekend does not inflate the count.
+
+<a id="timeoff-actions"></a>
 
 ### Actions
 
-- **Approve** — accepts the request; approved days are skipped by the auto-clock cron
-- **Reject** — declines the request
-- **Cancel** — cancels an approved or pending request
+**Approve**, **Reject** or **Cancel**; `requestedBy` records who submitted it.
 
-All three actions accept an optional note.
+**Only approved leave displaces a scheduled shift.** A pending request keeps the
+shift visible in the rota, marked with a small dot. The override happens when the
+rota and sheets are read, never written back, so cancelling leave brings the shift
+back by itself. A per-request **PDF** is available for signing.
 
 ---
+
+<a id="terminals"></a>
+
+## Terminals (Terminale)
+
+Only if granted — this section carries company-wide power, since a reader's site
+binding decides where its punches land.
+
+<a id="terminals-why"></a>
+
+### Why a terminal rather than a tablet
+
+A terminal does **1:N identification**: a worker presents a finger and the device
+answers *who it is*, with nobody selected first. That is the only arrangement that
+actually prevents one worker clocking in another. It also makes the **site
+certain**, because the reader is bolted to it, and **no fingerprint ever leaves
+the device** — only a number mapping a device slot to an employee is stored.
+
+<a id="terminals-mappings"></a>
+
+### Mapping employees to the device
+
+The table lists each device user ID, the employee it maps to, and whether the
+terminal holds an **RFID card** for them (the number is in the tooltip). Rows are
+flagged when the two sides disagree: *mapped here but absent on the terminal*,
+*mapped here to «name» — wrong mapping*, or *not mapped* (usually an installer's
+own account).
+
+<a id="terminals-fixname"></a>
+
+### Fixing a mistyped name
+
+Correct an employee's name after they were pushed and the reader keeps the old
+spelling. Use **Fix name on device** on the flagged row.
+
+> Do **not** push the employee again to fix it. A re-push is refused as a taken ID
+> and the mapping is deleted, after which their punches stop resolving. *Fix name
+> on device* changes only the name and leaves enrolled fingerprints alone.
+
+<a id="terminals-push"></a>
+
+### Sending employees to a terminal
+
+**Choose employees…** opens a searchable checkbox list; people already on the
+reader are greyed out with their allocated ID, and *Select all* applies only to
+the rows your search is showing. **Push all unmapped employees** is for
+commissioning a new reader. IDs are allocated by the platform, above the highest
+number either side knows, so a recycled ID can never attach a previous holder's
+punches to a new employee.
+
+**The finger itself is still enrolled by hand at the reader** — only the identity
+is pushed. Commands queue rather than run instantly, because a reader on a site
+network usually cannot be reached from outside.
+
+<a id="terminals-punchlog"></a>
+
+### The punch log
+
+The last 50 punches with colour-coded outcomes.
+
+| Outcome | Meaning |
+|---|---|
+| **Clock in / Clock out** | Normal. Direction is derived, never trusted from the device |
+| **Unknown user** | From a device user mapped to nobody |
+| **Rejected** | A finger that matched nobody — it identifies no one, so it can never become attendance, but it is recorded |
+| **Duplicate ignored** | A replay of a punch already recorded |
+| **Debounced** | A second tap within 60 seconds |
+| **Stale open event** | A punch long after an unclosed clock-in: a new shift opens and the old one is left for correction |
+| **Device inactive** | Switched off in the app |
+
+A run of **Rejected** with no successes between them means a dirty sensor, a
+failing reader, or somebody never enrolled.
+
+<a id="terminals-offline"></a>
+
+### Online / offline
+
+The badge goes offline after **5 minutes** without contact, or three of that
+device's polling intervals, whichever is longer.
+
+---
+
+<a id="plan"></a>
 
 ## Plan
 
-> Only visible if your admin has granted you access to the **Plan** section.
+Only if granted. Worker logistics — vehicles, accommodation and who sleeps where —
+with its own navigation and its own sign-in at `/plan/login`.
 
-The Plan section provides resource planning views. See the Plan section of the admin wiki for full details.
+<a id="plan-cars"></a>
+
+### Cars
+
+The fleet: make, model, year, licence plate, colour, seats, gearbox, fuel and the
+date acquired.
+
+<a id="plan-accommodation"></a>
+
+### Accommodation
+
+Name, address, rooms, capacity in people, and an optional map pin. Each
+accommodation holds **rooms** numbered uniquely within it, and employees are
+assigned to a room. CSV export and import are available.
+
+<a id="plan-assign"></a>
+
+### The Plan screen
+
+Pick a site and see its employees alongside the available accommodation, with the
+**distance in km** and each room's occupancy. Capacity shows as *spots* and
+*occupied*, a full room is marked **Full**, an empty one reads **No residents
+assigned**, and employees with no site appear under **No site**. **Export
+assignments** and **Import assignments** move the whole allocation as CSV.
+
+<a id="plan-directories"></a>
+
+### Employees and Sites
+
+Read-only directories for looking something up without leaving this area.
 
 ---
 
-## Changing your password
+<a id="password"></a>
 
-Click your name in the bottom bar, then **Change password**. You must enter your current password to set a new one (minimum 8 characters).
+## Your password
+
+**Change password** is in the bottom bar. You need your current password and at
+least 8 characters. Changing it **ends your sessions in other browsers**, which is
+the point.
+
+---
+
+*This guide describes the application as deployed. If a screen does not match
+what is written here, the application is right and this page needs updating.*

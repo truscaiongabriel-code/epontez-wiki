@@ -1,364 +1,1241 @@
-# Ghid administrator
+# Ghid Administrator
 
-Acest ghid acoperă toate secțiunile dashboard-ului de administrare disponibile administratorilor companiei.
+Tot ce poate face un administrator de companie în epontez. Secțiunile apar aici în
+aceeași ordine ca în bara de navigare.
+
+> **Ancorele sunt stabile.** Fiecare secțiune are un `id` explicit (de exemplu
+> `<a id="clock-calendar">`) **identic în ghidul românesc și în cel englezesc**.
+> Un link către `admin_wiki_ro.md#clock-calendar` sau
+> `admin_wiki_en.md#clock-calendar` duce la același subiect. Nu schimbați un `id`
+> chiar dacă reformulați titlul — este posibil ca ceva să trimită la el.
+
+**Cuprins** — [Autentificare](#login) · [Navigare](#navigation) ·
+[Status](#status) · [Pontaj](#clock) · [Angajați](#employees) ·
+[Program](#program) · [Planificare](#planning) · [Șantiere](#sites) ·
+[Incidente](#incidents) · [Parteneri](#partners) · [Fișe pontaj](#timesheets) ·
+[Concedii](#timeoff) · [Terminale](#terminals) · [Plan](#plan) ·
+[Setări](#settings) · [Parola dvs.](#password)
 
 ---
+
+<a id="login"></a>
 
 ## Autentificare
 
-Navigați la `/login` și introduceți emailul și parola. Dacă acest cont a fost dezactivat de un super admin, veți vedea un mesaj specific — resetarea parolei nu va funcționa cât timp contul este inactiv; contactați super adminul.
+Accesați `/login` și introduceți emailul și parola.
 
-Pentru recuperarea unei parole uitate, folosiți linkul **Ai uitat parola?** de pe pagina de autentificare. Veți primi un email cu un link de resetare valabil pentru o perioadă limitată.
+- **Parolă uitată** — folosiți *Ați uitat parola?*. Primiți pe email un link
+  valabil o perioadă limitată, utilizabil o singură dată.
+- **Cont dezactivat** — primiți un mesaj specific, nu o eroare generică de
+  autentificare. Resetarea parolei **nu** ajută cât timp contul este inactiv;
+  cereți super administratorului să îl reactiveze.
+- **Schimbarea parolei vă deconectează din celelalte sesiuni.** Este intenționat:
+  dacă altcineva cunoștea parola veche, sesiunea lui dispare odată cu ea.
+
+Selectorul de limbă se află în colțul din dreapta sus.
 
 ---
+
+<a id="navigation"></a>
 
 ## Navigare
 
-Bara de navigare de sus conține linkuri către toate secțiunile: **Dashboard, Pontaj, Angajați, Șantiere, Parteneri, Timesheets, Concedii, Setări**. Secțiunea activă este evidențiată. Un selector de limbă (EN/RO) se află în colțul din dreapta sus. Numele dvs. și opțiunea de deconectare apar în bara de jos.
+Bara de sus duce la secțiunile pe care rolul dvs. le poate deschide. Un
+administrator complet le vede pe toate:
+
+| Română | Engleză | Ce este |
+|---|---|---|
+| Status | Dashboard | Ziua de azi pe scurt |
+| Pontaj | Clock | Pontarea angajaților |
+| Angajați | Employees | Personalul |
+| Program | Schedules | Funcții, ture și exportul PONTAJ |
+| Șantiere / Sedii | Sites | Locurile de muncă și registrul de incidente |
+| Parteneri | Partners | Firme colaboratoare |
+| Fișe pontaj | Timesheets | Ore, costuri și exporturi lunare |
+| Concedii | Time off | Cereri de concediu |
+| Terminale | Terminals | Cititoare de amprentă |
+| Plan | Plan | Mașini, cazare și repartizări |
+| Setări | Settings | Configurarea companiei (doar administratori) |
+
+**Limba** — selectorul din dreapta sus oferă **română, engleză și germană**, iar
+alegerea este reținută pentru fiecare browser.
+
+Unele companii sunt configurate să folosească **sediu** în loc de **șantier** în
+toată interfața românească. Un super administrator stabilește acest lucru per
+companie, deci ecranele dvs. pot diferi de cele ale unui colega de la altă
+companie.
+
+Numele dvs., *Schimbă parola* și *Deconectare* sunt în bara de jos.
 
 ---
 
-## Dashboard
+<a id="status"></a>
 
-O vedere rapidă asupra forței de muncă pentru ziua curentă.
+## Status
 
-**Statistici — rândul 1**
-- **Pontați azi** — angajați distincți cu orice eveniment de pontaj valid azi (în desfășurare sau finalizat)
-- **Ore luna aceasta** — total ore finalizate pentru luna curentă (respectă programul de pauză dacă este configurat)
+Ziua de azi pe scurt.
 
-**Statistici — rândul 2**
-- **Pontați acum** (accent) — angajați cu pontaj de intrare deschis în acest moment
-- **Angajați activi** — numărul total de angajați activi
+**Rândul 1**
+- **Pontați azi** — angajați distincți cu un pontaj valid astăzi, încheiat sau în
+  curs
+- **Ore luna aceasta** — orele încheiate până acum, după scăderea pauzei dacă este
+  configurată
 
-**Statistici expandabile — rândul 3** (click pe orice statistică pentru a extinde un tabel de detalii)
-- **Nepontați în ultimele 5 zile lucrătoare** — angajați care nu au avut niciun eveniment de pontaj în ultimele 5 zile lucrătoare; tabelul afișează numele, funcția și șantierul implicit
-- **Concediu azi** — angajați cu o cerere de concediu aprobată sau în așteptare care acoperă ziua de azi; tabelul afișează numele, tipul și statusul
+**Rândul 2**
+- **Pontați acum** — angajați cu un pontaj deschis în acest moment
+- **Angajați activi** — efectivul actual
 
-**Grafice** (ultimele 30 de zile, defalcate pe șantier, cu o culoare distinctă pentru fiecare șantier)
-- *Persoane pe zi* — angajați distincți cu eveniment de pontaj în fiecare zi
-- *Ore pe zi* — total ore finalizate în fiecare zi
+**Rândul 3 — apăsați un card pentru a-l extinde**
+- **Nepontați în ultimele 5 zile lucrătoare** — nume, funcție, șantier implicit
+- **În concediu azi** — nume, tip, status (aprobat sau în așteptare)
 
-**Pontați în prezent** — tabel cu angajații care au un pontaj de intrare deschis azi; coloane: Angajat (cu badge de partener dacă este alocat), Ora de intrare, Notă.
+**Grafice** (ultimele 30 de zile, câte o culoare per șantier) — *Persoane pe zi*
+și *Ore pe zi*.
 
-**Ieșiri lipsă** — dacă există angajați cu pontaj de intrare deschis dintr-o zi anterioară, apare sus un banner de avertizare care îi listează pentru a putea corecta înregistrările.
+**Pontați în acest moment** — angajatul (cu eticheta partenerului dacă este
+asociat), ora pontării, nota.
+
+**Pontaje neînchise** — un avertisment care listează pe oricine are un pontaj
+deschis din altă zi, ca să puteți corecta înregistrarea. Acestea apar cel mai des
+când un angajat uită să prezinte amprenta la plecare.
 
 ---
+
+<a id="clock"></a>
 
 ## Pontaj
 
-Înregistrează evenimente de intrare și ieșire pentru angajați.
+Aici pontați angajații și corectați ce s-a înregistrat.
 
-> **Cerință:** trebuie să existe cel puțin un șantier activ înainte de a putea ponta pe cineva.
+> **Trebuie să existe cel puțin un șantier activ** înainte de a putea ponta pe
+> cineva.
 
-### Vizualizări
+Angajații sunt grupați în **secțiuni după șantierul implicit**, iar secțiunile
+sunt ordonate **alfabetic**, mereu în același loc. Un șantier cu număr în nume se
+ordonează natural — *Sediu T5* apare înaintea lui *Sediu T13*.
 
-Comutați între vizualizările **Calendar** și **Tabel** folosind butonul din zona dreapta sus.
+<a id="clock-visiting"></a>
 
-### Vizualizare Calendar
+### Cineva care a lucrat la alt șantier
 
-Un grid cu o coloană pentru fiecare angajat și un rând pentru fiecare zi a lunii selectate. Fiecare celulă afișează evenimentele de pontaj ale angajatului pentru ziua respectivă:
+Dacă un angajat a pontat la un șantier care nu este cel implicit — cel mai des
+pentru că a prezentat amprenta la terminalul de acolo — apare **de două ori**: o
+dată la șantierul lui și o dată la șantierul unde a lucrat efectiv, cu eticheta
+**(în vizită)**.
 
-- Un eveniment finalizat afișează **HH:mm – HH:mm** — click pentru editare.
-- Un eveniment în desfășurare afișează **HH:mm –** — click pentru pontare ieșire sau editare.
-- O zi de concediu afișează un model diagonal hașurat — click pentru anularea cererii (cu notă opțională).
-- Celulele din afara ferestrei editabile (controlată de setarea *Editare zile de pontaj anterioare*) sunt afișate cu gri.
+- Acțiunile pe oricare dintre rânduri afectează aceeași persoană; nu sunt două
+  înregistrări.
+- Eticheta **(în vizită)** apare doar dacă angajatul *are* un șantier implicit de
+  unde să lipsească. Cineva fără șantier implicit apare pur și simplu la șantierul
+  unde a lucrat, fără etichetă.
+- Fiecare rând arată doar pontajele care aparțin **secțiunii sale**, deci un
+  șantier nu pare niciodată să aibă muncă petrecută în altă parte.
+- Rândul unei persoane pontate **la alt șantier** apare ca nepontat, cu o notă
+  discretă, iar butonul de pontare este dezactivat — oricum o a doua pontare
+  simultană ar fi refuzată.
 
-Badge-urile de partener apar în anteturile coloanelor angajaților dacă angajatul este alocat unui partener.
+<a id="clock-calendar"></a>
 
-**Selectarea celulelor pentru acțiuni în masă** — faceți click pe celule individuale pentru a le selecta (evidențiate cu albastru), apoi alegeți o acțiune din toolbar: **Intrare**, **Ieșire**, **Final** (setează și intrarea, și ieșirea pentru o zi trecută) sau **Concediu**.
+### Vizualizarea calendar
 
-### Vizualizare Tabel
+O coloană per angajat, un rând per zi a lunii selectate.
 
-O listă tradițională care afișează statusul curent al fiecărui angajat, ultima oră de intrare, șantierul și nota. Acțiuni:
+| Celulă | Înseamnă |
+|---|---|
+| **HH:mm – HH:mm** | Pontaj încheiat — apăsați pentru editare |
+| **HH:mm –** | Încă pontat — apăsați pentru a-l ponta la ieșire sau a edita |
+| Dungi diagonale | Concediu |
+| Gri | În afara intervalului editabil (vezi [Zile editabile](#settings-editpast)) |
 
-- **Pontare intrare** — selectați șantierul (implicit, șantierul implicit al angajatului), notă opțională, confirmați.
-- **Pontare ieșire** — notă opțională, confirmați.
+<a id="clock-colours"></a>
 
-### Adăugarea unui eveniment manual
+### Ce înseamnă culorile
 
-Folosiți butonul **+ Adaugă pontaj** pentru a înregistra o intrare istorică pentru orice angajat și dată — util pentru pontaje omise. Setați ora de intrare, ora de ieșire opțională, șantierul și nota.
+| Culoare | Înseamnă |
+|---|---|
+| **Verde** | O zi obișnuită |
+| **Mov** | Ceva peste plan — vezi mai jos |
+| **Roz / ambră** | Weekend / sărbătoare legală |
+| **Triunghi galben în colț** | Pontajul nu a respectat tura: intrare după începerea turei sau ieșire înainte de final |
 
-### Modal de editare zi (vizualizare Calendar)
+O celulă devine **mov** pentru oricare dintre:
 
-Click pe o celulă cu eveniment finalizat deschide dialogul de editare. Dacă angajatul are mai multe evenimente în acea zi, alegeți evenimentul de editat. Puteți corecta orele de intrare și ieșire. **Nota existentă** este afișată doar pentru citire; scrieți în câmpul **Adaugă notă** pentru a adăuga text — o ștampilă de audit (numele dvs. + timestamp) este adăugată automat la salvare.
+- **ore suplimentare** față de programul de lucru al companiei;
+- ore de **weekend sau sărbătoare legală**;
+- **muncă în afara turei repartizate** — intrare cu peste **15 minute** înainte de
+  începerea turei *sau* ieșire cu peste 15 minute după finalul ei.
 
-### Modal acțiuni în masă
+Într-o zi **fără tură repartizată**, ultima regulă se aplică totuși, măsurată față
+de **cel mai larg interval pe care îl lucrează vreodată funcția respectivă** —
+cea mai timpurie oră de început și cea mai târzie de final dintre toate turele
+funcției. Astfel, cineva care vine la o tură de după-amiază neplanificată nu este
+marcat doar pentru că a fost în afara turei de dimineață; se marchează doar munca
+din afara a *tot* ce lucrează funcția.
 
-După selectarea mai multor celule din calendar, alegeți tipul acțiunii:
+Treceți cursorul peste o celulă mov și eticheta spune care dintre motive se
+aplică.
+
+Movul înseamnă *mai mult* decât s-a planificat. Întârzierea sau plecarea
+devreme sunt opusul și se arată prin **triunghiul galben**.
+
+> Turele de noapte nu sunt evaluate după regula de 15 minute. O ieșire la 05:00 nu
+> poate fi deosebită de o plecare devreme fără o dată, deci sistemul refuză să
+> ghicească în loc să marcheze muncă de noapte corectă.
+
+<a id="clock-select"></a>
+
+### Selectarea celulelor
+
+Apăsați celule pentru a le selecta (se colorează în albastru), apoi alegeți o
+acțiune: **Pontare intrare**, **Pontare ieșire**, **Final** (ambele capete ale
+unei zile trecute) sau **Concediu**. Zilele acoperite deja de concediu aprobat și
+angajații deja pontați nu pot fi selectați.
+
+Un pontaj **invalidat** nu este prezență: este ignorat de calendar, de statusul
+rândului, de selecție și de totalurile pe șantier. Un pontaj *deschis* contează
+totuși ca în curs, fiindcă este singurul mod de a ponta persoana la ieșire.
+
+<a id="clock-table"></a>
+
+### Vizualizarea tabel
+
+O listă per șantier cu statusul fiecărui angajat, ultima pontare, șantierul și
+nota.
+
+- **Pontare intrare** — alegeți șantierul (cel implicit este preselectat), notă
+  opțională.
+- **Pontare ieșire** — notă opțională.
+
+Etichetele de deasupra fiecărui tabel numără **Încheiate**, **În curs** și
+**Nepontate** pentru acel șantier.
+
+<a id="clock-manual"></a>
+
+### Adăugarea manuală a unui pontaj
+
+**+ Adaugă pontaj** înregistrează o intrare istorică pentru orice angajat și
+dată — soluția pentru o pontare ratată. Stabiliți intrarea, opțional ieșirea,
+șantierul și o notă.
+
+<a id="clock-shift-times"></a>
+
+### Completarea orelor din tură
+
+În dialogul de adăugare apare deasupra câmpurilor de ore un rând de **etichete de
+tură** — de exemplu `Tura B · 08:00–16:00`. Ele listează turele care aparțin
+**funcțiilor angajaților selectați**. Apăsați una și orele se completează; le
+puteți edita în continuare.
+
+- Pentru o intrare cu început și final se completează ambele capete; pentru una cu
+  o singură oră, doar cea relevantă.
+- Ieșirea unei ture de noapte este plasată în ziua următoare.
+- Dacă selectați persoane din două funcții, primiți ambele seturi de etichete.
+- Dacă firma nu are ture definite, nu apar etichete, iar câmpurile revin la
+  programul de lucru al companiei sau la 08:00–17:00.
+
+<a id="clock-edit"></a>
+
+### Editarea unei zile
+
+Apăsarea unei celule încheiate deschide dialogul de editare; dacă există mai multe
+pontaje în ziua respectivă, alegeți unul. Puteți corecta ambele ore. **Nota
+existentă nu poate fi modificată** — scrieți în **Adaugă notă** și se adaugă
+automat o marcă de audit cu numele dvs. și ora. Notele se completează, nu se
+suprascriu niciodată, deci istoricul unei corecții supraviețuiește.
+
+<a id="clock-bulk"></a>
+
+### Acțiuni în masă
 
 | Tip | Ce face |
-|-----|---------|
-| Clock In | Înregistrează o intrare pentru fiecare zi selectată |
-| Clock Out | Închide pontajul de intrare deschis pentru fiecare zi selectată |
-| Final | Înregistrează atât intrarea, cât și ieșirea pentru fiecare zi selectată |
-| Time Off | Creează o cerere de concediu pentru fiecare zi selectată |
+|---|---|
+| Pontare intrare | O intrare în fiecare zi selectată |
+| Pontare ieșire | Închide pontajul deschis din fiecare zi |
+| Final | Ambele capete în fiecare zi |
+| Concediu | O cerere de concediu pentru fiecare zi |
 
-Puteți seta un șantier comun, ora/orele și nota. Conflictele (de exemplu, un angajat are deja PTO aprobat într-o zi selectată) sunt raportate înainte de salvare.
+Stabiliți un singur șantier, ore și notă pentru tot lotul. Conflictele — concediu
+aprobat într-o zi selectată, un pontaj suprapus — sunt raportate înainte de a se
+salva ceva.
 
-### Banner blocare
+<a id="clock-lock"></a>
 
-Dacă **Pontaj blocat** este activat în Setări, în partea de sus a paginii apare un banner roșu. Cât timp este blocat, pontajul în masă este restricționat la ziua curentă, iar editările pentru zile anterioare sunt blocate.
+### Bannerul roșu de blocare
+
+Dacă [Pontaj blocat](#settings-lock) este activ, apare un banner roșu. Cât timp
+este blocat, pontarea în masă este limitată la ziua de azi și editările pe zile
+trecute sunt refuzate. Folosiți-l pentru a îngheța o lună deja trimisă la
+salarizare.
 
 ---
+
+<a id="employees"></a>
 
 ## Angajați
 
-Gestionați forța de muncă. Angajații sunt grupați după **șantierul implicit**; cei fără șantier implicit apar într-un grup "Fără șantier alocat" în partea de sus.
+Personalul, grupat după **șantierul implicit**, cu angajații care nu au unul într-o
+grupă *Fără șantier* la început.
+
+<a id="employees-filter"></a>
 
 ### Filtrare
 
-Folosiți filtrele tip pill — **Activ / Inactiv / Toți** — pentru a restrânge lista. Dacă există parteneri, apare și un filtru dropdown pentru partener. Parametrii URL păstrează filtrul la reîncărcare.
+Etichete — **Activi / Inactivi / Toate**. Apare și un filtru de partener dacă
+aveți parteneri. Ambele se păstrează în adresă, deci o reîncărcare sau un link
+trimis păstrează filtrul.
+
+<a id="employees-columns"></a>
+
+### Coloanele se adaptează singure
+
+**O coloană fără date în toată firma este ascunsă.** Dacă nimeni nu are tarif
+orar, nu există coloana Tarif orar; dacă nimeni nu folosește localizarea
+automată, coloana dispare. Nume, Status, Creat și Acțiuni se afișează mereu.
+
+Sub tabele, o notă spune ce este ascuns și cum se readuce:
+
+> Coloane ascunse deoarece niciun angajat nu le folosește încă: **Email, Telefon,
+> Amprentă** — activează oricare dintre ele din pagina de editare a unui angajat
+> și coloana reapare.
+
+Setul **nu** se schimbă când comutați eticheta Activi/Inactivi/Toate, deci
+coloanele nu apar și dispar pe măsură ce filtrați.
+
+<a id="employees-fingerprint"></a>
+
+### Coloana Amprentă
+
+Trei stări, iar cea din mijloc este importantă:
+
+| Afișat | Înseamnă |
+|---|---|
+| **Inactiv** | Nu are voie să înregistreze un dispozitiv |
+| **Înrolare în așteptare** (ambră) | Are voie, dar nu a înregistrat nimic — **PIN-ul îl pontează în continuare** |
+| **2 dispozitive** | Atâtea dispozitive înregistrate — iar PIN-ul **nu mai funcționează pentru pontare** |
+
+<a id="employees-add"></a>
 
 ### Adăugarea unui angajat
 
-Click pe **Adaugă angajat** și completați:
+**Adaugă angajat**, apoi:
 
-- **Nume** (obligatoriu)
-- **Funcție** (obligatoriu)
-- Email, telefon (opționale)
-- **Șantier implicit** — preselectează acest șantier în dropdown-ul de pontare din kiosk și grupează angajatul sub acel șantier în această listă
-- **PIN** — un cod numeric folosit de angajat pentru autentificare în kiosk; lăsați gol dacă angajatul nu are nevoie de acces kiosk (poate fi setat ulterior)
-- **ID angajat** este generat automat, dar poate fi setat manual; este unic în companie și nu poate fi modificat după creare
+| Câmp | Observații |
+|---|---|
+| **Nume de familie**, **Prenume** | Ambele obligatorii |
+| Funcție | Aleasă din lista din [Program](#program-roles) |
+| Email, Telefon | Opționale |
+| Data nașterii | Opțională |
+| Șantier implicit | Preselectează șantierul la kiosk și grupează angajatul în aceste liste |
+| Partener | Îl asociază unui colaborator — vezi [Parteneri](#partners) |
+| Tarif orar | Tariful de bază pentru salarizare; multiplicatorii sunt per companie în Setări |
+| Concediu anual (CO) — zile permise | Dezactivat când este selectat un partener |
+| PIN Kiosk | 4–6 cifre; lăsați gol dacă nu are nevoie de kiosk. Se poate seta ulterior |
+
+Un nume duplicat în aceeași companie este refuzat.
+
+> Pentru a muta un angajat existent la alt șantier, folosiți **Transfer** din
+> listă, nu acest formular.
+
+<a id="employees-edit"></a>
 
 ### Editarea unui angajat
 
-Click pe **Editare** pentru a deschide pagina de editare a angajatului. Toate câmpurile de la creare sunt editabile, plus:
+Tot ce este mai sus, plus:
 
-- **Data nașterii** — opțională; stocată pentru referință
-- **Status** — comutarea Activ / Inactiv necesită un motiv, care este adăugat în notele de audit ale angajatului
-- **Partener** — alocați angajatul unui partener de afaceri; apare ca badge mov în platformă
-- **Pontaj automat** — activați pentru ca sistemul să înregistreze automat intrarea și ieșirea în fiecare zi lucrătoare:
-  - Selectați șantierul, ora de început (HH:mm) și ora de sfârșit (HH:mm)
-  - Începutul trebuie să fie înainte de sfârșit
-  - Cât timp este activ, angajatul nu poate ponta manual din kiosk
-  - Zilele cu concediu aprobat și weekendurile sunt sărite automat
-- **Auto-locare** — când este activată, kiosk-ul solicită locația GPS a angajatului la intrare; serverul stochează coordonatele și înregistrează dacă angajatul era în raza șantierului
-- **Șterge PIN** — elimină PIN-ul, astfel încât angajatul nu mai poate folosi kiosk-ul
-- **Zonă periculoasă** (doar angajați inactivi) — **Ascunde angajat** face angajatul invizibil pentru toți administratorii și pentru kiosk; doar un super admin îl poate reafișa
+- **ID sistem** — needitabil. Este singurul identificator al unui angajat; nu
+  există un număr de personal separat.
+- **Numele** — editabil doar în **48 de ore** de la crearea angajatului, pentru că
+  numele este cel pe care se potrivesc fișele și exporturile.
+- **Activ** — schimbarea cere un **Motiv**, scris în jurnalul de activitate cu
+  numele dvs. și data.
+- **Jurnal de activitate** — istoric care se completează, nu se șterge.
+- **Pontaj automat** — o sarcină zilnică creează automat pontajul zilei. Are nevoie
+  de șantier, oră de început și de final; doar în zilele lucrătoare, sărind pe
+  oricine este deja pontat sau în concediu aprobat. Orele sunt interpretate în
+  Europe/Bucharest.
+- **Localizare auto** — captează GPS-ul la pontarea de la kiosk și stabilește dacă
+  persoana era pe șantier. **Cu aceasta activă, coordonatele devin obligatorii**:
+  un angajat care blochează locația nu se poate ponta. O verificare care poate fi
+  sărită nu este o verificare.
+- **Amprentă (passkey)** — vezi mai jos.
+- **PIN Kiosk** — setați-l sau ștergeți-l.
+- **Șterge datele de localizare** — elimină toate coordonatele GPS din pontajele
+  acestui angajat, pentru o cerere GDPR de ștergere. Pontajele se păstrează.
 
-### Badge partener
+<a id="employees-passkey"></a>
 
-Un pill mov cu numele partenerului apare lângă numele angajatului în platformă (lista angajaților, timesheets, pagina de pontaj, dashboard).
+### Autentificare cu amprenta pe telefonul angajatului
 
-### Import / Export CSV
+Activarea **Amprentă** permite angajatului să se autentifice la kiosk atingând
+senzorul propriului telefon, în loc să își aleagă numele și să tasteze un PIN.
 
-**Export CSV** — descarcă un spreadsheet cu toți angajații care se potrivesc filtrului de status curent. Coloane: `employeeId, name, position, email, phone, dateOfBirth, active, autoClockEnabled, autoClockStart, autoClockEnd, autoClockSiteName, autoLocateEnabled, defaultSiteName`.
+Înrolarea cere **două elemente**, intenționat — PIN-ul angajatului **și** un cod
+de unică folosință emis de dvs. aici. Doar PIN-ul ar permite oricui a văzut un
+coleg tastând patru cifre să își asocieze permanent propria amprentă contului
+acelui coleg.
 
-**Import CSV** — după selectarea unui fișier, se afișează un **preview** înainte de a se face modificări:
-- **De adăugat** — rânduri care nu se potrivesc niciunui angajat existent
-- **Cu modificări** — angajați existenți unde cel puțin un câmp diferă
-- **Fără modificări** — angajați existenți cu date identice (săriți la import)
+1. Apăsați butonul pentru a genera un cod de înrolare. **Este afișat o singură
+   dată** — copiați-l.
+2. Angajatul deschide `/kiosk`, alege *Configurează amprenta pe acest dispozitiv*
+   și introduce PIN-ul și codul.
+3. Dispozitivul apare apoi în lista de aici, cu data ultimei utilizări.
 
-Erorile (nume de șantier necunoscut, valoare invalidă, câmpuri obligatorii lipsă pentru pontaj automat, ID angajat duplicat etc.) trebuie rezolvate înainte ca importul să fie confirmat. Schimbările de status activ sunt adăugate automat în notele de audit ale fiecărui angajat.
+Consecințe importante:
 
-Logica de potrivire: `employeeId` este cheia principală, apoi numele (case-insensitive), apoi emailul. Rândurile noi necesită `employeeId` setat.
+- **Odată ce are un dispozitiv înregistrat, PIN-ul nu mai funcționează pentru
+  pontare** — dar funcționează în continuare pentru vizualizarea orelor și
+  cererile de concediu. Un PIN poate fi dat unui coleg în parcare; o amprentă, nu.
+- **Dezactivarea Amprentei șterge toate dispozitivele înregistrate.** Este o
+  revocare, nu o pauză.
+- **Revocarea unui dispozitiv restabilește imediat PIN-ul** — aceasta este calea
+  de întoarcere pentru un telefon pierdut sau descărcat, împreună cu pontarea de
+  către dvs. din acest panou.
+- Eticheta **Passkey sincronizat** înseamnă că acreditarea se află în brelocul
+  platformei angajatului și poate apărea pe celelalte dispozitive ale lui.
+- Este pentru **telefoane personale**. Pe o tabletă comună orice amprentă înrolată
+  deblochează orice passkey de pe ea, deci nu ar împiedica un angajat să ponteze
+  un altul — pentru asta sunt [Terminalele](#terminals).
 
-### Descărcare PDF
+<a id="employees-csv"></a>
 
-**↓ PDF** descarcă o listă A4 landscape cu angajații grupați pe șantier, incluzând nume, funcție, email, telefon și status PIN.
+### Import și export CSV
+
+- **Export** — alegeți Activi, Inactivi sau Toate. Coloanele sunt titluri fixe în
+  engleză (`lastName`, `firstName`, `position`, …) pentru că reprezintă un contract
+  cu programul care citește fișierul. Notele nu se exportă.
+- **Import** — **doar administratori**, nu manageri de șantier: scrie la nivelul
+  întregii companii și poate schimba cine este activ, ceea ce ar ocoli limitarea
+  pe șantiere aplicată de toate celelalte ecrane.
+  - `lastName` și `firstName` sunt obligatorii; fișierul este respins fără ambele.
+  - Angajații existenți se potrivesc după **nume** (indiferent de majuscule), iar
+    în lipsă după **email**.
+  - Primiți mai întâi o **previzualizare**: de adăugat, de actualizat,
+    neschimbate și erorile — nu se scrie nimic până nu confirmați.
+  - O schimbare de status scrie o linie în jurnalul angajatului.
+  - Rândurile neschimbate sunt sărite.
+
+<a id="employees-pdf"></a>
+
+### PDF
+
+**↓ PDF** descarcă lista angajaților activi grupată după șantier, cu antetul
+companiei.
+
+<a id="employees-hide"></a>
+
+### Ascunderea unei persoane
+
+Un angajat **inactiv** are o secțiune **Zonă periculoasă** cu **Ascunde
+angajatul**. Angajații ascunși dispar din pagina de pontaj, din kiosk, din lista
+de angajați și din sarcina de pontaj automat. **Doar un super administrator poate
+anula ascunderea**, deci folosiți-o pentru persoane care au plecat, nu pentru o
+absență temporară.
 
 ---
+
+<a id="program"></a>
+
+## Program
+
+Programul oficial de lucru al companiei: funcțiile pe care le ocupă oamenii, turele
+pe care le lucrează acele funcții și exportul lunar PONTAJ. **Doar
+administratori.**
+
+<a id="program-roles"></a>
+
+### Funcții
+
+Lista oficială de posturi. Fiecare rând arată turele sale și câți angajați o
+ocupă.
+
+- **Adăugați** o funcție; numele sunt unice per companie, indiferent de majuscule.
+- **Redenumire** — redenumirea peste un nume existent oferă **unificarea**:
+  angajații trec la cealaltă funcție, repartizările lor de tură se șterg, iar
+  funcția veche este eliminată.
+- **Dezactivați** în loc să ștergeți dacă funcția este încă folosită. Ștergerea
+  este refuzată cât timp cineva o ocupă.
+- Un card ambră listează **angajații activi fără nicio funcție** — merită
+  rezolvat, fiindcă funcția este cea care leagă o persoană de ture.
+
+<a id="program-shifts"></a>
+
+### Biblioteca de ture
+
+Turele aparțin **companiei**, nu unei singure funcții, iar o funcție poate lucra
+mai multe ture, în timp ce o tură poate deservi mai multe funcții.
+
+1. Creați tura o singură dată în bibliotecă — nume, început, final, notă opțională.
+2. Atașați-o funcțiilor care o lucrează, din oricare parte: bifați funcții pe tură
+   sau ture pe funcție. Debifarea o detașează.
+
+Observații:
+
+- Un final egal sau anterior începutului înseamnă că tura **trece peste miezul
+  nopții**; este permis și marcat cu eticheta *peste noapte*.
+- Două ture pot avea același nume — fiecare selector arată `nume · 07:00–16:00`,
+  ceea ce le deosebește. Ce este refuzat este același nume **și** aceleași ore în
+  aceeași companie, adică două rânduri imposibil de distins.
+- Turele sunt **informative**. Nimic din calculul orelor, al suplimentarelor sau
+  al costurilor nu citește o tură. Ele alimentează planificarea, marcajele de
+  respectare a programului și fișele PONTAJ.
+- Nimeni nu are o tură permanentă. Tura lucrată este un fapt **zilnic**, stabilit
+  în [Planificare](#planning), fiindcă în practică se schimbă de la o zi la alta.
+- Ștergerea unei ture șterge și repartizările ei pe zile, deci acele zile devin
+  goale în Planificare.
+
+<a id="program-export"></a>
+
+### Exportul PONTAJ
+
+Selectorul de lună și butonul verde **Descarcă Excel** se află în antetul paginii,
+cu două filtre lângă ele.
+
+| Filtru | Opțiuni |
+|---|---|
+| **Funcție** | *Toate funcțiile* (implicit) sau o funcție |
+| **Partener** | *Fără partener* (**implicit**), *Toți partenerii* sau un partener |
+
+> **Filtrul de partener exclude implicit colaboratorii.** O fișă PONTAJ este un
+> document de salarizare pentru personalul propriu, iar oamenii unui colaborator
+> sunt facturați prin partenerul lor. Alegeți *Toți partenerii* dacă doriți
+> totuși pe toți — și verificați ce este selectat înainte de a trimite fișierul la
+> salarizare.
+
+Ambele filtre rămân în bara de adrese, deci o reîncărcare le păstrează și
+descărcarea conține exact ce vedeți.
+
+Două foi, identice în structură ca să se alinieze coloană cu coloană:
+
+- **Vedere planificare** — planul pentru toată luna.
+- **Vedere pontaj** — același plan **trunchiat la ziua de azi**, adnotat cu
+  prezența. Într-o zi programată în care s-a lucrat, rândul arată normal; într-una
+  în care nu s-a lucrat, orele devin **0** și celula este desenată roșu închis cu
+  o notă *Absent*. O lună trecută merge până la final; o lună viitoare este goală,
+  fiindcă nimeni nu poate lipsi de la o tură care nu s-a întâmplat.
+
+Ambele raportează orele și **orele planificate** ale turei. O zi fără nimic
+planificat este goală în ambele, chiar dacă cineva a pontat — fișa este orientată
+pe program, deci nu există ore planificate față de care să raporteze munca.
+
+Coloanele sunt `Nr.Crt | Nume | Functie | Sediu | Program de lucru | 1..n | total
+| Bonus/RON`, cu `SUM()` activ per angajat. **Sediu** este șantierul implicit al
+angajatului, o singură valoare unificată per persoană. Titlurile sunt **mereu în
+română**, indiferent de limba interfeței, pentru că structura fișierului este un
+contract cu cel care o primește. Limitat la 450 de angajați.
+
+Concediul aprobat înlocuiește tura: codul (`CO`, `CM`, `CFP`, `CS`…) intră în
+*Inceput*, finalul și pauza se golesc, iar ziua înregistrează **0 ore**, deci
+totalul lunar numără în continuare doar orele lucrate.
+
+---
+
+<a id="planning"></a>
+
+## Planificare
+
+Se ajunge din butonul **Planificare** de pe o funcție din Program sau din butonul
+colorat din antet. **Doar administratori.**
+
+<a id="planning-grid"></a>
+
+### Grila
+
+Angajații pe verticală, zilele lunii pe orizontală — forma care răspunde la
+întrebarea *este acoperită fiecare noapte?*, lucru pe care un calendar per
+persoană nu îl arată.
+
+- Fiecare tură are culoarea sa, stabilă în toată grila.
+- Weekendurile sunt roz, sărbătorile legale ambră.
+- Un **✓** mov marchează o zi în care cineva a lucrat **fără nimic planificat**.
+- Opțiunea **Toate funcțiile** din selector arată pe toată lumea deodată, iar
+  legenda listează fiecare tură o singură dată, chiar dacă mai multe funcții o
+  împart.
+
+<a id="planning-assign"></a>
+
+### Repartizarea unei ture
+
+Apăsați orice celulă — sau folosiți câmpurile De la/Până la pentru un interval,
+singurul mod rezonabil de a introduce două săptămâni de nopți.
+
+- **Un interval este împărțit în serii de zile lucrătoare.** 2–13 februarie devine
+  două repartizări, nu una lungă care înghite weekendul. Sâmbetele, duminicile și
+  sărbătorile legale rămân goale dacă nu bifați *include zilele nelucrătoare*.
+- **O zi singură este respectată mereu ca atare** — așa puneți pe cineva într-o
+  sâmbătă.
+- O repartizare **fără dată de final** acoperă necesar fiecare zi, inclusiv
+  weekendurile, fiindcă nu există o ultimă zi la care să se oprească. Dialogul o
+  spune.
+- **Suprapunerile sunt remodelate, nu refuzate.** Trecerea cuiva pe nopți de pe 10
+  încheie repartizarea lui de dimineață fără final pe 9.
+- Primiți mereu o **previzualizare** a ce s-ar schimba și un pas de confirmare
+  oricând s-ar modifica ceva.
+
+<a id="planning-switch"></a>
+
+### Schimbul între două persoane pentru o zi
+
+Pentru o singură zi, dialogul oferă un panou **Schimbă tura** cu colegii aflați
+în altă tură în acea zi. Un schimb:
+
+- decupează **o singură zi** din repartizarea fiecăruia, lăsând neatins restul
+  ambelor planificări;
+- marchează ambele zile **Schimbat**, cu o notă care spune cine a făcut schimbul
+  și cu cine;
+- cere ca cei doi să ocupe aceeași funcție și să fie în ture diferite în ziua
+  respectivă.
+
+O zi schimbată nu este niciodată suprascrisă de detectarea automată a turelor — o
+decizie umană are prioritate față de detector.
+
+<a id="planning-clear"></a>
+
+### Golirea unei zile
+
+**Golește ziua** decupează acea zi din repartizarea din jur, împărțind-o în două
+dacă ziua se află la mijloc. Nu readuce ce a fost remodelat anterior pentru a face
+loc.
+
+<a id="planning-timeoff"></a>
+
+### Alocarea concediului din planificare
+
+- **Alocă concediu**, lângă *Repartizează tura*, acoperă un interval pentru mai
+  mulți angajați.
+- În dialogul celulei, un comutator **Tură / Concediu** acoperă ziua pe care ați
+  apăsat.
+- O zi deja în concediu aprobat oferă **Elimină concediul** în locul lui *Golește
+  ziua*. Concediul se stochează câte un rând per zi lucrătoare, deci este un
+  singur rând, iar el este **anulat, nu șters** — pista de audit supraviețuiește
+  și, pentru că doar concediul aprobat are prioritate, tura de dedesubt reapare
+  singură.
+- Puteți repartiza o tură într-o zi deja acoperită de concediu; planificarea de
+  dedesubt se editează în continuare, iar dialogul o spune.
+
+Ambele căi trec prin aceleași verificări ca secțiunea Concedii, deci suprapunerile
+și pontajul într-o zi de concediu se comportă identic oriunde.
+
+<a id="planning-table"></a>
+
+### Tabelul de sub grilă
+
+Câte un rând per **zi programată** — `Angajat | Tură | Zi | Intrare | Ieșire |
+Status | Notă` — unde Intrare și Ieșire sunt prima pontare și ultima ieșire din
+ziua respectivă.
+
+**Tabelul se oprește la ziua de azi**, în timp ce grila arată în continuare toată
+luna. Toate coloanele în afară de Tură raportează ce s-a întâmplat efectiv, iar o
+zi viitoare nu are nimic din asta, deci acele rânduri erau o pagină de spații
+goale. O lună trecută este completă; o lună viitoare arată un tabel gol și o grilă
+plină. Nu se pierde nimic — apăsarea unei celule viitoare din grilă deschide tot
+dialogul de repartizare.
+
+| Nuanță | Înseamnă |
+|---|---|
+| **Roșu** | Planul a fost încălcat: intrare după început, ieșire înainte de final sau niciun pontaj într-o zi a cărei tură începuse deja |
+| **Mov** | Nu exista plan: s-a lucrat într-o zi fără nimic planificat. Statusul este **Neplanificat**, iar acțiunea oferă *Repartizează tura* în loc de *Golește ziua* |
+
+„Începuse deja” înseamnă că ziua a trecut sau că este azi și ora de început a
+trecut — deci o tură de mai târziu astăzi nu este încă o absență.
+
+Concediul aprobat **nu** este absență și are prioritate față de ambele.
+
+---
+
+<a id="sites"></a>
 
 ## Șantiere
 
-Gestionați șantierele companiei. Șantierele active apar în dropdown-ul de pontare.
+Locurile dvs. de muncă.
+
+<a id="sites-add"></a>
 
 ### Adăugarea unui șantier
 
-Completați **numele șantierului** (obligatoriu) și opțional:
+Nume, adresă opțională și un **punct pe hartă** opțional. Căutați o adresă sau
+apăsați pe hartă pentru a-l plasa.
 
-- **Adresă**
-- **Locație pe hartă** — click pe **Setează locația pe hartă** pentru a deschide o hartă interactivă; mutați pinul sau căutați după adresă; coordonatele salvate sunt folosite pentru verificarea auto-locare pe șantier și apar ca link clicabil de hartă în administrare
-- **Partener** — legați acest șantier de un partener de afaceri
-- **Ieșire automată** — bifați caseta și setați o oră (HH:mm) pentru a ponta automat ieșirea oricărui angajat încă pontat pe acest șantier la ora respectivă
+<a id="sites-coords"></a>
 
-### Editarea unui șantier
+### De ce contează coordonatele
 
-Toate câmpurile de la creare sunt editabile. Fiecare salvare adaugă o linie în **istoricul de audit** al șantierului, indicând ce s-a schimbat, când și de către cine. Vedeți istoricul prin extinderea secțiunii de istoric din formularul de editare.
+Coordonatele fac posibilă verificarea prezenței pe șantier. Fără ele, o pontare nu
+poate fi niciodată evaluată — oricât de strâmtă ar fi [raza](#settings-radius) —
+deci acele rânduri sunt marcate ambră cu **Fără coordonate**. Altfel, lipsa rămâne
+invizibilă până când cineva se întreabă de ce toate indicatoarele de locație sunt
+gri.
 
-### Activare / Dezactivare
+Prezența în afara șantierului este **înregistrată, nu blocată**. Este o dovadă
+pentru cel care verifică fișa, nu o barieră la pontare.
 
-Un șantier inactiv nu mai apare în dropdown-ul de pontare sau în kiosk. Dezactivarea nu șterge istoricul de pontaj.
+<a id="sites-autoclockout"></a>
 
-### Ascunderea unui șantier
+### Pontare automată de ieșire per șantier
 
-Șantierele inactive pot fi ascunse folosind butonul **Ascunde** din coloana de acțiuni. Șantierele ascunse sunt invizibile pentru toți administratorii și pentru kiosk — doar un super admin le poate reafișa.
+Activați-o și stabiliți o oră, iar oricine este încă pontat **la acel șantier**
+este pontat la ieșire atunci. Regula șantierului are prioritate față de
+[cea a companiei](#settings-autoclockout).
 
-### Filtre tip pill
+<a id="sites-partner"></a>
 
-Folosiți **Activ / Inactiv / Toți** pentru a schimba vizualizarea.
+### Asocierea cu un partener
+
+Un șantier poate aparține unui singur partener. Pagina Parteneri listează apoi
+șantierul sub acel partener.
+
+<a id="sites-status"></a>
+
+### Activ, inactiv, ascuns
+
+Etichetele filtrează **Active / Inactive / Toate**. Un șantier trebuie să fie
+**inactiv înainte de a putea fi ascuns**, iar șantierele ascunse sunt invizibile
+pentru administratori, kiosk și sarcina de pontaj automat — **doar un super
+administrator poate anula ascunderea**.
+
+Fiecare modificare adaugă o linie de audit în notele șantierului: *Actualizat de
+«nume» · data (câmpuri modificate)*.
 
 ---
+
+<a id="incidents"></a>
+
+## Incidente
+
+Un registru de incidente per șantier, pentru Legea 319/2006. Butoanele sunt pe
+rândul fiecărui șantier și sunt disponibile oricărui rol care poate vedea
+Șantiere.
+
+<a id="incidents-add"></a>
+
+### Înregistrarea unui incident
+
+**Înregistrare incident**, apoi:
+
+| Câmp | Opțiuni |
+|---|---|
+| **Tip** | Accident · Eveniment evitat · Întâmplare periculoasă · Boală profesională |
+| **Gravitate** | Minor · Moderat · Grav · Mortal |
+| **Data incidentului** | Când s-a petrecut |
+| **Data înregistrării** | Când a fost consemnat |
+| **Descriere** | Obligatorie |
+| **Angajați implicați** | Aleși dintre angajații repartizați la acel șantier |
+| Martori | Opțional |
+| Măsuri corective | Opțional |
+| **Raportat autorităților** | Da/nu |
+
+<a id="incidents-pdf"></a>
+
+### PDF-ul registrului
+
+**PDF incidente** cere o lună și produce un registru A4 landscape pentru acel
+șantier și acea lună. Dacă nu există nimic consemnat, vă spune, în loc să producă
+un fișier gol.
+
+---
+
+<a id="partners"></a>
 
 ## Parteneri
 
-Gestionați partenerii de afaceri (subcontractori, clienți) asociați companiei.
+Firme colaboratoare ai căror oameni lucrează pe șantierele dvs.
 
-### Adăugarea unui partener
+Câmpuri: nume, adresă, email, telefon, CUI, activ. Tabelul arată **șantierele**
+asociate fiecărui partener ca subrânduri. Etichetele filtrează **Activi /
+Inactivi / Toate**.
 
-Completați **numele partenerului** (obligatoriu) și opțional adresa, emailul, telefonul și CUI (cod fiscal românesc).
+Două lucruri decurg din asocierea unui angajat cu un partener, ambele intenționat:
 
-### Editarea unui partener
+- **Nu poate cere concediu.** Concediul este treaba angajatorului său. Este
+  refuzat atât în panou, cât și la kiosk.
+- **Câmpurile de concediu anual sunt dezactivate** în formularul angajatului, din
+  același motiv.
 
-Click pe **Editare** pentru a actualiza orice câmp. Puteți de asemenea **Dezactiva** sau **Activa** un partener din coloana de acțiuni.
-
-### Asociere partener–șantier
-
-Șantierele sunt legate de parteneri din pagina **Șantiere** (în formularul de editare al șantierului). Fiecare rând de partener din acest tabel afișează o sub-listă cu toate șantierele alocate în prezent.
-
-### Filtre tip pill
-
-Filtrele **Activ / Inactiv / Toți** se aplică și aici.
+**Filtrul de partener** din paginile Angajați și Pontaj este altceva decât
+secțiunea *Parteneri*: filtrează **angajați**, nu pagini. Separat, un manager de
+șantier poate fi configurat să vadă doar angajații care **nu** sunt asociați unui
+partener.
 
 ---
 
-## Timesheets
+<a id="timesheets"></a>
 
-Date lunare de salarizare pentru fiecare angajat.
+## Fișe pontaj
 
-### Navigarea între luni
+Ore, costuri și exporturi, lună cu lună.
 
-Folosiți selectorul de lună (săgeți sau dropdown) pentru a comuta între luni.
+<a id="timesheets-filters"></a>
 
-### Filtre
+### Ce vedeți
 
-- **Șantier** — afișează doar angajații pontați pe un anumit șantier
-- **Angajat** — afișează un singur angajat
-- **Partener** — afișează doar angajații care aparțin unui anumit partener (sau "Fără partener" pentru cei nealocați)
+Antetul are selectorul de lună și filtre pentru **șantier**, **angajat** și
+**partener** (*Toți partenerii* sau *Fără partener*). Folosiți săgețile sau
+câmpul de lună pentru a naviga.
 
-Implicit (fără filtru) se afișează un sumar compact. Folosiți butonul **Extinde tot** sau selectați un filtru pentru a încărca tabelul complet.
+<a id="timesheets-read"></a>
 
 ### Citirea tabelului
 
-Fiecare angajat are o secțiune cu rânduri zilnice. Coloane: Dată, Zi, Intrare, Ieșire, Ore, Șantier, Pontat de, Ieșire pontată de, Notă.
+Fiecare angajat este un bloc cu pontajele lunii, cu subtotaluri zilnice și un
+total lunar.
 
-Indicatori speciali:
-- Pill **Auto** — evenimentul a fost creat de cron-ul de pontaj automat
-- **pin 📍** — coordonatele GPS au fost capturate la intrare (hover pentru badge pe șantier / în afara șantierului)
-- Badge **Void** — evenimentul este marcat invalid și exclus din totaluri
+| Marcaj | Înseamnă |
+|---|---|
+| Eticheta **Auto** | Creat de sarcina de pontaj automat, nu de o persoană |
+| **Rând mov** | Suplimentare, weekend, sărbătoare sau muncă în afara turei — aceleași reguli ca la [culorile din pontaj](#clock-colours) |
+| Tăiat / estompat | Marcat invalid; nu se numără nicăieri |
+| Eticheta partenerului | Angajatul este asociat unui colaborator |
 
-Totalurile pe zi, totalul general de ore și orele facturabile (respectând programul de pauză) sunt afișate pentru fiecare angajat.
+Antetul angajatului arată `| șantier implicit: «nume»` când există unul.
 
-### Editarea unui eveniment de pontaj
+<a id="timesheets-gps"></a>
 
-Click pe iconița creion de pe orice rând pentru a deschide dialogul de editare. Puteți corecta ora de intrare sau ieșire, comuta flagul **Valid** și adăuga o notă. O ștampilă de audit (numele dvs. + timestamp) este adăugată automat la salvare.
+### Indicatoarele de locație
 
-### Vizualizare Calendar (timesheets)
+O tură este o singură înregistrare cu **două** poziții, deci fiecare rând poate
+purta două indicatoare: **Intrare** și **Ieșire**. Fiecare duce la OpenStreetMap
+exact în acel punct.
 
-Comutați la vizualizarea calendar pentru un grid vizual al lunii. Click pe o celulă cu eveniment finalizat deschide un dialog de editare cu aceeași posibilitate de adăugare notă. Click pe o celulă de concediu deschide un dialog de anulare cu notă opțională.
+| Indicator | Înseamnă |
+|---|---|
+| **Verde** | Pe șantier |
+| **Roșu** | În afara șantierului |
+| **Gri** | A fost înregistrată o poziție, dar șantierul nu avea coordonate față de care să fie evaluată — „nu se poate verifica” |
+| Niciun indicator | Nu s-a captat nicio poziție |
 
-### Descărcarea PDF-ului
+Acesta este singurul loc unde se arată poziția unui **angajat**; orice alt link de
+hartă din aplicație duce la un șantier.
 
-Click pe **↓ PDF** pentru a descărca un timesheet A4 formatat pentru luna și filtrele selectate.
+**Verdictul este înghețat în momentul pontării.** Modificarea razei sau adăugarea
+de coordonate la un șantier afectează doar pontările ulterioare — reevaluarea unei
+luni încheiate prin schimbarea unei setări astăzi este exact ce ar face datele de
+prezență imposibil de susținut.
+
+Coordonatele se șterg automat după **180 de zile** și la cerere din pagina de
+editare a angajatului.
+
+<a id="timesheets-edit"></a>
+
+### Corectarea unui pontaj
+
+Apăsați un rând pentru a-i edita orele sau a-l marca invalid. Notele se adaugă, cu
+marcă de audit, ca în pagina de pontaj. Revalidarea unei intrări invalide reia
+verificarea de suprapunere, deci un pontaj recuperat nu poate ajunge să se
+suprapună cu unul valid.
+
+<a id="timesheets-download"></a>
+
+### Descărcări
+
+Meniul de descărcare oferă:
+
+| Fișier | Conține |
+|---|---|
+| **PDF** | Fișa lunară, cu antetul și logoul companiei |
+| **Excel** | Aceleași date, per angajat sau per șantier |
+| **CSV salarizare** | Format pentru programe, **inclusiv tarifele orare** |
+
+Toate trei respectă filtrele setate.
+
+> **Managerii de șantier nu pot descărca niciunul**, chiar dacă pot citi pagina.
+> Fișierul de salarizare conține salarii, iar restricția este aplicată pe server,
+> nu doar prin ascunderea butonului.
 
 ---
+
+<a id="timeoff"></a>
 
 ## Concedii
 
-Revizuiți, aprobați și gestionați cererile de concediu ale angajaților.
+Cereri de concediu, de la dvs. sau de la angajați prin kiosk. O cerere în
+așteptare pune un asterisc pe tabul din navigare.
 
-### Tipuri de concediu
+<a id="timeoff-types"></a>
 
-| Cod | Descriere |
-|-----|-----------|
-| CO | Concediu de odihnă plătit |
-| CFP | Concediu fără plată |
-| Medical | Concediu medical / certificat medical |
-| Marriage | Eveniment căsătorie |
-| Blood donation | Zi pentru donare de sânge |
-| Special events | Alte evenimente speciale |
-| Military | Serviciu militar |
-| Funeral | Deces |
-| Child birth | Concediu parental |
+### Tipuri
 
-### Navigare și filtrare
+`CO` concediu de odihnă · `CFP` fără plată · `MEDICAL` medical · `MARRIAGE`
+căsătorie · `BLOOD_DONATION` donare de sânge · `SPECIAL_EVENTS` evenimente
+speciale · `MILITARY` militar · `FUNERAL` deces · `CHILD_BIRTH` naștere ·
+`EXCUSED` motivat · `ABSENT` absent.
 
-Folosiți **selectorul de lună** pentru navigare. Un dropdown **tip** filtrează după categoria de concediu. Lunile cu cereri în așteptare sunt evidențiate deasupra selectorului, ca să puteți sări rapid la ele.
+<a id="timeoff-read"></a>
 
 ### Citirea tabelului
 
-Cererile sunt listate pe zile lucrătoare (un rând pe zi). Pill-urile de sumar din partea de sus numără zilele lucrătoare pe status. Fiecare rând afișează: data, ziua săptămânii, tipul, badge-ul de status, trimis de și nota.
+Concediul se stochează **câte un rând per zi lucrătoare**, deci tabelul are coloane
+separate **Data**, **Ziua** și **Zile**, iar etichetele de sumar numără zile
+lucrătoare, nu zile calendaristice. O cerere peste un weekend nu umflă numărul.
+
+<a id="timeoff-actions"></a>
 
 ### Acțiuni
 
-- **Aprobă** — acceptă cererea; zilele aprobate sunt sărite de cron-ul de pontaj automat
-- **Respinge** — refuză cererea
-- **Anulează** — anulează o cerere aprobată sau în așteptare
+**Aprobă**, **Respinge** sau **Anulează**. Se înregistrează cine a depus cererea.
 
-Toate cele trei acțiuni acceptă o notă opțională care este salvată pe cerere.
+**Doar concediul aprobat înlocuiește o tură programată.** O cerere în așteptare nu
+a fost acordată, deci planificarea arată în continuare tura și marchează celula cu
+un punct mic.
+
+Înlocuirea se aplică atunci când planificarea și fișele sunt *citite*, niciodată
+scrisă definitiv — deci anularea concediului face ca tura de dedesubt să reapară
+singură, fără niciun pas de reparare.
+
+Există un **PDF** per cerere, pentru semnare.
 
 ---
+
+<a id="terminals"></a>
+
+## Terminale
+
+Cititoare fizice de amprentă. **Doar administratori.**
+
+<a id="terminals-why"></a>
+
+### De ce un terminal și nu o tabletă
+
+Un terminal face **identificare 1:N**: angajatul prezintă un deget și dispozitivul
+răspunde *cine este*, fără ca nimeni să fi fost selectat înainte. Este singura
+soluție care împiedică efectiv un angajat să ponteze un altul. Senzorul propriu al
+unei tablete nu poate, pentru că sistemul de operare tratează orice amprentă
+înrolată ca fiind egală.
+
+Alte două avantaje vin gratuit: **șantierul este sigur**, pentru că cititorul este
+fixat pe el — mult mai fiabil decât o alegere declarată în meniu — și **nicio
+amprentă nu părăsește dispozitivul**. Se stochează doar un număr care leagă o
+poziție din terminal de un angajat, ceea ce ține platforma în afara regulilor
+privind datele biometrice.
+
+<a id="terminals-add"></a>
+
+### Înregistrarea unui cititor
+
+Adăugați-l cu nume, serie, producător și model, apoi asociați-l unui **șantier** —
+acea asociere atribuie pontajele, deci stabiliți-o înainte de a înrola pe cineva.
+Un panou vă avertizează dacă un terminal nu are șantier.
+
+<a id="terminals-setup"></a>
+
+### Panoul de configurare
+
+Un panou de copiat pentru cine instalează cititorul: host, port, adresa de intrare,
+asocierea cu șantierul, o **listă de IP-uri permise** și **contul și cheia ISUP**
+editabile, cu care terminalul sună către server.
+
+- **Contul** se setează pe ecranul propriu al terminalului, *Comm. → EHome*, și
+  **nu are legătură cu seria** — aveți nevoie de ambele.
+- După schimbarea cheii EHome, așteptați până la **cinci minute**. Receptorul își
+  citește lista de dispozitive periodic și, până se reîmprospătează, prezintă
+  cheia veche, iar terminalul este refuzat. O serie de mesaje de respingere a
+  cheii imediat după o schimbare este asta, nu o defecțiune.
+
+<a id="terminals-mappings"></a>
+
+### Asocierea angajaților cu dispozitivul
+
+Tabelul listează fiecare ID de utilizator din dispozitiv, angajatul asociat și dacă
+terminalul deține un **card RFID** pentru el. Eticheta de card înseamnă că
+cititorul a raportat unul; numărul este în indiciu. Cardurile adăugate la tastatura
+terminalului apar după următoarea reîmprospătare.
+
+Rândurile sunt marcate când cele două părți nu coincid:
+
+| Marcaj | Înseamnă |
+|---|---|
+| **asociat aici, absent pe terminal** | Avem o asociere pe care cititorul nu o cunoaște |
+| **asociat aici cu «nume» — asociere greșită** | Cititorul deține alt nume pentru acel ID |
+| **neasociat** | Un utilizator al dispozitivului care nu aparține nimănui — de obicei contul instalatorului |
+
+<a id="terminals-fixname"></a>
+
+### Corectarea unui nume greșit
+
+Dacă modificați numele unui angajat după ce a fost trimis la un cititor, cititorul
+păstrează scrierea veche și rândul este marcat ca asociere greșită. Folosiți
+**Corectează numele pe terminal** pe acel rând.
+
+> **Nu** încercați să rezolvați asta trimițând angajatul din nou. O retrimitere
+> este refuzată ca ID ocupat și asocierea este ștearsă, după care pontajele lui nu
+> se mai potrivesc cu nimeni. *Corectează numele pe terminal* schimbă doar numele,
+> lăsând neatinse amprentele înrolate și drepturile de acces.
+
+<a id="terminals-push"></a>
+
+### Trimiterea angajaților către un terminal
+
+Trimiterea **identității** de aici face ca instalatorul să aleagă o persoană deja
+prezentă, cu nume, la cititor, în loc să inventeze un număr — ceea ce împiedică
+orele unui angajat să ajungă pe numele altuia.
+
+- **Alege angajați…** deschide o listă cu bifare și căutare. Persoanele deja
+  prezente pe cititor sunt gri, cu ID-ul alocat. *Selectează tot* se aplică doar
+  rândurilor arătate de căutare, deci nu poate include în liniște pe cineva aflat
+  în afara ecranului.
+- **Trimite toți angajații neasociați** este acțiunea potrivită la punerea în
+  funcțiune a unui cititor nou.
+- ID-urile sunt **alocate de platformă**, intenționat peste cel mai mare număr
+  cunoscut de oricare parte, deci un ID reciclat nu poate atașa pontajele unui
+  deținător anterior unui angajat nou.
+- **Amprenta în sine se înrolează manual la cititor.** Niciun producător nu oferă
+  înrolarea fără a predea șablonul, lucru pe care platforma nu îl cere.
+
+Comenzile se pun la coadă în loc să ruleze instantaneu, pentru că un cititor din
+rețeaua unui șantier de obicei nu poate fi apelat din exterior. Numărul de comenzi
+în așteptare și eșuate se afișează pe dispozitiv.
+
+<a id="terminals-punchlog"></a>
+
+### Jurnalul de pontări
+
+Ultimele 50 de pontări, cu rezultate colorate.
+
+| Rezultat | Înseamnă |
+|---|---|
+| **Intrare / Ieșire** | Normal — direcția este dedusă, niciodată preluată din dispozitiv |
+| **Utilizator necunoscut** | O pontare de la un ID neasociat nimănui |
+| **Respins** | Un deget care nu a corespuns nimănui. Nu identifică pe nimeni, deci nu poate deveni prezență, dar este consemnat |
+| **Duplicat ignorat** | O repetare a unei pontări deja înregistrate |
+| **Prea rapid** | O a doua atingere în 60 de secunde |
+| **Pontaj deschis vechi** | O pontare mult după o intrare neînchisă: se deschide o tură nouă și cea veche vă este lăsată de corectat, în loc să se inventeze o oră de ieșire plauzibilă |
+| **Dispozitiv inactiv** | Terminalul este dezactivat în aplicație |
+
+Citirea acestui jurnal este modul în care problemele devin vizibile: o serie de
+**Respins** fără reușite între ele înseamnă un senzor murdar, un cititor defect
+sau cineva neînrolat. O serie de **Prea rapid** în jurul orei de pontare automată
+de ieșire înseamnă că sarcina înghite pontări reale.
+
+<a id="terminals-offline"></a>
+
+### Online / offline
+
+Eticheta trece pe offline după **5 minute** fără contact — sau după trei intervale
+proprii de interogare ale dispozitivului, oricare este mai mare, ca un cititor
+interogat intenționat o dată la zece minute să nu oscileze.
+
+Ștergerea unui terminal elimină asocierile și istoricul de pontări, dar
+**păstrează pontajele deja create** — acelea sunt ore lucrate real.
+
+---
+
+<a id="plan"></a>
+
+## Plan
+
+O zonă separată pentru logistica muncitorilor: mașini, cazare și cine doarme unde.
+Are navigare proprie și pagină proprie de autentificare la `/plan/login`. Managerii
+de partener și angajații nu o pot deschide.
+
+<a id="plan-cars"></a>
+
+### Mașini
+
+Parcul auto: marcă, model, an, număr de înmatriculare, culoare, locuri, cutie de
+viteze (manuală sau automată), combustibil (benzină, diesel, hibrid, electric) și
+data achiziției.
+
+<a id="plan-accommodation"></a>
+
+### Cazare
+
+Locurile unde stau muncitorii: nume, adresă, număr de camere, capacitate în
+persoane și un punct opțional pe hartă. Fiecare cazare are **camere**,
+identificate prin număr și unice în cadrul acelei cazări, iar angajații sunt
+repartizați pe camere.
+
+Sunt disponibile export și import CSV pentru cazare.
+
+<a id="plan-assign"></a>
+
+### Ecranul Planificare
+
+Alegeți un șantier și ecranul arată angajații lui alături de cazările disponibile,
+cu **distanța în km** de la acel șantier și ocuparea fiecărei camere.
+
+- Capacitatea se arată ca *locuri* și *ocupate*, iar o cameră plină este marcată
+  **Plin**.
+- Repartizați un angajat într-o cameră sau anulați repartizarea.
+- O cameră fără nimeni afișează **Niciun rezident repartizat**.
+- Angajații fără șantier apar la **Fără șantier**.
+
+**Exportă repartizările** și **Importă repartizările** mută toată alocarea ca CSV.
+
+<a id="plan-directories"></a>
+
+### Angajați și Șantiere
+
+Registre doar pentru citire, pentru a căuta ceva fără a părăsi această zonă.
+
+---
+
+<a id="settings"></a>
 
 ## Setări
 
-Configurația companiei. Accesibilă doar administratorilor.
+**Doar administratori.** Managerii de șantier nu pot deschide această pagină — este
+locul unde se creează managerii de șantier.
+
+<a id="settings-company"></a>
 
 ### Detalii companie
 
-Actualizați **numele, emailul, telefonul, adresa, CUI-ul** și numele **managerului** companiei. Acestea apar în anteturile PDF.
+Nume, adresă și un **logo**, care apare în eticheta din navigare, la kiosk și în
+antetele PDF. Încărcați o adresă publică de imagine sau un PNG/JPEG de maximum
+200 KB.
 
-**Logo** — încărcați un PNG sau JPEG de până la 200 KB. Logo-ul apare în chip-ul de navigare din stânga sus și în toate anteturile PDF.
+<a id="settings-radius"></a>
 
-### Kiosk angajați
+### Raza pe șantier
 
-**Codul de acces kiosk** este codul pe care angajații îl introduc la `/kiosk` pentru a identifica firma. Îl puteți actualiza aici.
+Cât de aproape de punctul de pe hartă al unui șantier trebuie să fie o pontare de
+la kiosk pentru a conta ca fiind pe șantier, **în metri**, implicit **500**.
 
-### Ieșire automată globală
+Per companie, pentru că un sediu în centrul orașului și un terasament de autostradă
+au nevoie de toleranțe complet diferite. Minimul este **25 m** intenționat: GPS-ul
+de consum are o precizie de aproximativ 5–20 m, mai slabă între clădiri înalte,
+deci orice valoare mai strânsă ar marca oamenii ca fiind în afara șantierului în
+timp ce stau pe el. Maximul este 50 000 m.
 
-Pontează automat ieșirea tuturor angajaților încă pontați la o oră setată.
+O modificare salvată se aplică pontărilor în până la **un minut**, lucru util de
+știut când testați manual.
 
-- Comutați **Activare** pornit sau oprit.
-- Setați o **oră de ieșire** (HH:mm, Europe/Bucharest). Toți angajații cu pontaj de intrare deschis la exact acel minut sunt pontați automat la ieșire.
+<a id="settings-selfie"></a>
 
-> **Sfat:** orele de ieșire automată pe șantier pot fi setate pe pagina **Șantiere**, pentru a viza doar angajații pontați pe un anumit șantier.
+### Fotografie la pontare
 
-### Program pauză
+Activați-o și stabiliți un **procent**, iar acea proporție a pontărilor de la
+kiosk cere o fotografie.
 
-Activați și configurați o fereastră zilnică de pauză (ora de început și ora de sfârșit). Când este activată, orele care se suprapun cu pauza sunt excluse din totalurile facturabile în timesheets și dashboard.
+**Decizia este luată pe server și rămâne.** Anularea camerei, refuzul permisiunii
+sau închiderea paginii doar *amână* aceeași fotografie, nu o evită — următoarea
+încercare o cere din nou, până este făcută. Altfel, un angajat ar putea apăsa pur
+și simplu din nou *Pontare* și ar reîncerca norocul.
 
-### Program de lucru
+Un administrator care pontează pe cineva din panou nu este niciodată întrebat, ceea
+ce este și soluția pentru o cameră defectă.
 
-Activați și configurați orele standard de lucru (ora de început și ora de sfârșit). Folosit pentru calculul orelor suplimentare — orele din afara acestei ferestre sunt considerate ore suplimentare în totalurile timesheet.
+<a id="settings-kiosk-code"></a>
 
-### Blocare pontaj
+### Codul de kiosk
 
-Când **Pontaj blocat** este activat, toate editările pentru zile anterioare sunt blocate, iar pontajul în masă este restricționat la ziua curentă. Un banner roșu este afișat pe pagina Pontaj cât timp blocarea este activă.
+Codul companiei pe care angajații îl tastează la kiosk, de forma `AB1234`. Este
+generat la crearea companiei și poate fi regenerat aici — după care **toți trebuie
+să folosească noul cod**.
 
-### Editare zile de pontaj anterioare
+<a id="settings-autoclockout"></a>
 
-Controlează câte zile în urmă poate fi editat un eveniment de pontaj (implicit: 5). Evenimentele mai vechi decât această limită nu pot fi modificate de utilizatori care nu sunt super admin.
+### Pontare automată de ieșire, global
 
-### Utilizatori admin
+O oră la care oricine este încă pontat oriunde în companie este pontat la ieșire,
+cu o oră diferită opțională pentru weekend. [Regula unui
+șantier](#sites-autoclockout) are prioritate.
 
-Listează toate conturile de administrator ale companiei. Puteți:
+Fiecare pontare automată de ieșire scrie o linie de audit în nota pontajului, cu
+regula și ora pentru care a fost configurată, deci o închidere automată nu este
+niciodată imposibil de deosebit de un angajat care își încheie singur tura.
 
-- **Adăuga** un administrator nou (nume, email, parolă — minimum 8 caractere)
-- **Edita** numele și emailul
-- **Reseta parola**
-- **Dezactiva / Activa** administratori existenți
+<a id="settings-break"></a>
 
-Administratorii dezactivați nu se pot autentifica și resetarea parolei nu funcționează pentru ei. Conturile super admin sunt marcate cu un badge **Super** și nu pot fi dezactivate din această pagină.
+### Programul pauzei
+
+Un interval neplătit scăzut din orice pontaj care îl cuprinde, păstrând orele
+lucrate corecte fără ca nimeni să se ponteze la ieșire pentru masă.
+
+<a id="settings-workschedule"></a>
+
+### Programul de lucru
+
+Ziua standard a companiei. Orice depășește acest program contează drept **ore
+suplimentare** și este desenat mov în calendare și fișe. Este și valoarea de
+rezervă pentru orele precompletate la adăugarea unui pontaj, dacă nu există ture
+definite.
+
+<a id="settings-shiftdetect"></a>
+
+### Detectarea schimbării de tură
+
+O sarcină nocturnă care mută repartizarea de tură a unei zile atunci când pontajul
+real se potrivește clar mai bine cu o **altă** tură.
+
+Intenționat prudentă: se uită doar la pontaje încheiate, la funcții cu două sau mai
+multe ture, nu atinge niciodată o zi **schimbată** manual și nu inventează
+niciodată o repartizare acolo unde planificarea era goală — gol înseamnă *fără
+plan*.
+
+Deosebește structural o schimbare reală de tură de ore suplimentare sau de o
+întârziere, nu prin praguri: suplimentarele produc un interval lucrat care
+*cuprinde* tura repartizată, iar o întârziere produce unul *în interiorul* ei, deci
+în ambele cazuri tura repartizată rămâne cea mai potrivită. Două ture aproape
+identice (07–16 față de 08–17) nu sunt schimbate niciodată, ceea ce este corect,
+fiindcă acolo distincția nu contează.
+
+<a id="settings-lock"></a>
+
+### Pontaj blocat
+
+Îngheață pontarea: apare un banner roșu, pontarea în masă este limitată la ziua de
+azi și editările pe zile trecute sunt refuzate. Folosiți-o după ce o lună a plecat
+la salarizare.
+
+<a id="settings-editpast"></a>
+
+### Zile editabile în trecut
+
+Câte zile în urmă poate fi adăugat sau corectat un pontaj. Celulele din afara
+intervalului sunt gri în calendare.
+
+<a id="settings-notifications"></a>
+
+### Notificări
+
+- **Avertizări de pontare pe șantier** și **rapoarte lunare pe email**, cu o
+  limită zilnică de trimitere, ca rulările suplimentare să nu poată spama pe
+  nimeni.
+- **Notificări de autentificare din IP nou** — un email când un administrator se
+  autentifică de la o adresă nemaivăzută.
+
+<a id="settings-admins"></a>
+
+### Conturi de administrator
+
+Creați și editați administratori, dezactivați-i și resetați o parolă. Un
+administrator dezactivat nu se poate autentifica și nu poate folosi resetarea
+parolei pentru a reveni.
+
+<a id="settings-site-managers"></a>
 
 ### Manageri de șantier
 
-Listează toate conturile de manager de șantier. Managerii de șantier au acces restricționat — pot vedea doar angajații al căror șantier implicit corespunde șantierelor alocate.
+Un administrator restrâns, limitat la șantierele pe care le atribuiți.
 
-- **Adăugați** un manager de șantier (nume, email, parolă)
-- **Acces aplicație** — alegeți ce secțiuni poate vedea managerul: Status, Pontaj, Angajați, Șantiere, Timesheets, Concedii, Plan. Pontaj și Angajați sunt întotdeauna active implicit.
-- **Vizualizare/Gestionare parteneri** — checkbox în profilul managerului; când este activat, managerul poate vedea coloana Parteneri și badge-urile de partener pe angajați
-- **Alocare șantiere** — selectați șantierele pentru care acest manager este responsabil
-- **Editare**, **resetare parolă**, **dezactivare / activare**
+- **Secțiuni** — bifați care dintre cele zece secțiuni le pot deschide. Implicit
+  sunt *Pontaj* și *Angajați*. Setările nu pot fi acordate niciodată.
+- **Vizibilitatea partenerilor** — dezactivată, văd doar angajații care **nu** sunt
+  asociați unui partener. Aceasta filtrează *angajați*, nu pagini, și este diferită
+  de dreptul de a deschide secțiunea Parteneri.
+- Indiferent de secțiuni: **nu pot descărca nicio fișă de pontaj** și **nu pot
+  importa CSV-ul de angajați**.
 
-### Manageri de parteneri
+<a id="settings-partner-managers"></a>
 
-Listează toate conturile de manager de parteneri. Managerii de parteneri pot accesa doar paginile Pontaj și Angajați și văd doar angajații care aparțin partenerilor alocați.
+### Manageri de partener
 
-- **Adăugați** un manager de parteneri (nume, email, parolă)
-- **Alocare parteneri** — selectați partenerii pentru care acest manager este responsabil
-- **Editare**, **resetare parolă**, **dezactivare / activare**
+Limitați la partenerii pe care îi atribuiți, cu o pereche fixă de secțiuni —
+**Pontaj** și **Angajați** — care nu poate fi modificată.
 
 ---
 
-## Schimbarea parolei
+<a id="password"></a>
 
-Click pe numele dvs. din bara de jos, apoi **Schimbă parola**. Trebuie să introduceți parola curentă pentru a seta una nouă (minimum 8 caractere).
+## Parola dvs.
+
+**Schimbă parola** se află în bara de jos. Aveți nevoie de parola actuală, iar cea
+nouă trebuie să aibă minimum 8 caractere.
+
+Schimbarea ei **încheie sesiunile din celelalte browsere**. Acesta este scopul:
+dacă parola veche fusese compromisă, și sesiunea deschisă cu ea dispare.
+
+---
+
+*Acest ghid descrie aplicația așa cum este instalată. Dacă un ecran nu corespunde
+cu ce este scris aici, aplicația are dreptate și această pagină trebuie
+actualizată.*
