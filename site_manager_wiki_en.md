@@ -58,6 +58,9 @@ Go to `/login` with your email and password.
 - **Deactivated account** — you get a specific message, and a password reset will
   not help. Ask an administrator to reactivate you.
 - Changing your password ends your sessions in other browsers.
+- **You stay signed in while you work.** The session lasts an hour and renews on
+  every page you open, so continuous work never signs you out; an hour of
+  touching nothing does.
 
 A language picker — **English, Romanian, German** — is in the top-right corner.
 
@@ -229,6 +232,11 @@ only added to, never overwritten.
 | Final | Both ends on each day |
 | Time off | A leave request per day |
 
+**Granting leave without selecting cells** — press *Add time off* with nothing
+selected and the start and end dates become editable, so an interval can be
+granted directly. Select cells first and the dates are read-only, because there
+the grid is the range.
+
 One site, time(s) and note for the batch. Conflicts are reported before anything
 is saved.
 
@@ -399,6 +407,24 @@ shape is a contract with whoever receives it. Approved leave writes its code int
 
 ## Planning (the rota)
 
+> **You can now edit this.** Granting the Program section used to leave Planning
+> readable and useless to you — every change was refused. You may now assign,
+> clear, swap and bulk-allocate shifts for **employees whose default site is one
+> of yours, plus anyone with no default site at all**. That second part matters:
+> without it an unassigned employee could be planned by nobody but a full admin,
+> and those are exactly the people most likely to need covering.
+>
+> An employee at another site is refused by name. A **swap needs both sides** in
+> your scope, since it rewrites two people's days and holding one of them is not
+> authority over the other.
+>
+> Your name is recorded on everything you change, in the assignment and in the
+> company log.
+>
+> The shift **library** stays admin-only. A shift belongs to the company, so
+> creating or deleting one changes every site and cannot be scoped to yours — you
+> assign shifts, you do not define them.
+
 Reached from **Planning** on a role in Program. Granted with Program.
 
 <a id="planning-grid"></a>
@@ -409,6 +435,46 @@ Employees down the side, days across the top — the shape that answers *is ever
 night covered?*. Each shift has a stable colour, weekends are pink, holidays
 amber, and a purple **✓** marks a day worked with **nothing rostered**. An **All
 roles** option shows everyone, with each shift listed once in the legend.
+
+<a id="planning-automation"></a>
+
+### Two pills at the top
+
+Above the grid, two pills say whether the automatic mechanisms are on — green for
+on, grey for off. Both write to the rota with nobody pressing anything, so if a
+grid changed overnight these say which could have done it.
+
+| Pill | What it does |
+|---|---|
+| **⊕ Auto-fill shift on clock-in** | Rosters a **blank** day when somebody clocks in on it |
+| **◎ Shift-change detection** | Moves a day **already rostered** when the clocking fits another shift better |
+
+Both are switched on per company by an administrator, in Settings — which you
+cannot open, so the pills are how you find out.
+
+<a id="planning-cells"></a>
+
+### Reading a cell
+
+Each cell carries its shift's colour and stacks the short name over the start and
+end times. Hovering gives the whole day: the shift and its hours, the date, what
+was actually clocked (or **No clocking**), and the adherence verdict. The corner
+glyph is that verdict — green ✓ on time, amber ✓ late or early, red ✗ absent.
+
+<a id="planning-select"></a>
+
+### Selecting several cells at once
+
+**Empty cells can be clicked to build a selection**, then **Allocate shift (n)**
+applies one shift to all of them.
+
+- Only empty cells join a selection; a cell with a shift or leave opens the dialog
+  as before.
+- **One function at a time** — a shift belongs to a function, so clicking into
+  another one starts a fresh selection.
+- Nothing selected? Everything behaves as it always did.
+- The same site scoping applies: a selection may only contain employees you may
+  plan.
 
 <a id="planning-assign"></a>
 
@@ -461,6 +527,14 @@ edited.
 
 One row per **scheduled day** — `Employee | Shift | Day | In | Out | Status |
 Note`, where In and Out are that day's first clock-in and last clock-out.
+
+**Each employee is collapsed**; click their row to open their days. The header
+keeps the tally — ✓ on time, ✓ late, ✗ absent, ✓ unplanned — and the count of
+hidden days, so somebody with a red ✗ is still one visible line.
+
+The **Status** column says how a day came to be rostered: blank for a person,
+**⇄ Switched** for a one-day swap, **⊕ Auto-filled** when a clock-in rostered it,
+**◎ Detected** when detection moved it.
 
 **The table stops at today** while the grid shows the whole month: every column
 except Shift reports what happened, and a future day has none of it. A past month
@@ -630,8 +704,12 @@ Only if granted. A pending request puts an asterisk on the nav tab.
 ### Types
 
 `CO` annual leave · `CFP` unpaid · `MEDICAL` sick · `MARRIAGE` · `BLOOD_DONATION`
-· `SPECIAL_EVENTS` · `MILITARY` · `FUNERAL` · `CHILD_BIRTH` · `EXCUSED` ·
-`ABSENT`.
+· `SPECIAL_EVENTS` · `MILITARY` · `FUNERAL` · `CHILD_BIRTH` · **`MATERNITY`** ·
+`EXCUSED` · `ABSENT`.
+
+**Maternity** is separate from *Child birth*: the latter is the few days around a
+birth, maternity the long statutory period, and a pontaj reports them
+separately.
 
 <a id="timeoff-read"></a>
 
@@ -711,7 +789,8 @@ network usually cannot be reached from outside.
 
 ### The punch log
 
-The last 50 punches with colour-coded outcomes.
+The ten most recent punches, with **Show 10 more** fetching the next ten only
+when asked.
 
 | Outcome | Meaning |
 |---|---|

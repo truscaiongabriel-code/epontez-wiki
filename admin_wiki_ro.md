@@ -13,7 +13,7 @@ aceeași ordine ca în bara de navigare.
 [Status](#status) · [Pontaj](#clock) · [Angajați](#employees) ·
 [Program](#program) · [Planificare](#planning) · [Șantiere](#sites) ·
 [Incidente](#incidents) · [Parteneri](#partners) · [Fișe pontaj](#timesheets) ·
-[Concedii](#timeoff) · [Terminale](#terminals) · [Plan](#plan) ·
+[Raport întârzieri](#report-late) · [Concedii](#timeoff) · [Terminale](#terminals) · [Plan](#plan) ·
 [Setări](#settings) · [Parola dvs.](#password)
 
 ---
@@ -31,6 +31,10 @@ Accesați `/login` și introduceți emailul și parola.
   cereți super administratorului să îl reactiveze.
 - **Schimbarea parolei vă deconectează din celelalte sesiuni.** Este intenționat:
   dacă altcineva cunoștea parola veche, sesiunea lui dispare odată cu ea.
+- **Rămâneți conectat cât timp lucrați.** Sesiunea durează o oră și se reînnoiește
+  la fiecare pagină deschisă, deci munca continuă nu vă deconectează niciodată; o
+  oră fără nicio acțiune o face. Astfel un ecran nesupravegheat se blochează
+  singur, și de aceea un tab lăsat deschis peste noapte cere reautentificare.
 
 Selectorul de limbă se află în colțul din dreapta sus.
 
@@ -253,6 +257,12 @@ suprascriu niciodată, deci istoricul unei corecții supraviețuiește.
 | Pontare ieșire | Închide pontajul deschis din fiecare zi |
 | Final | Ambele capete în fiecare zi |
 | Concediu | O cerere de concediu pentru fiecare zi |
+
+**Acordarea concediului fără a selecta celule** — apăsați *Adaugă concediu* cu
+nimic selectat și primiți date de **început și sfârșit** editabile, plus bifele
+pentru angajați, deci un interval poate fi acordat direct. Dacă selectați mai
+întâi celule, datele devin needitabile: acolo grila *este* intervalul, iar niște
+câmpuri editabile lângă zilele evidențiate le-ar contrazice.
 
 Stabiliți un singur șantier, ore și notă pentru tot lotul. Conflictele — concediu
 aprobat într-o zi selectată, un pontaj suprapus — sunt raportate înainte de a se
@@ -513,6 +523,13 @@ Două foi, identice în structură ca să se alinieze coloană cu coloană:
   o notă *Absent*. O lună trecută merge până la final; o lună viitoare este goală,
   fiindcă nimeni nu poate lipsi de la o tură care nu s-a întâmplat.
 
+Vederea **Pontaj** poartă și un rând per zi cu **locația pontată efectiv** —
+etichetat *Șantier pontat* sau *Sediu pontat*, după vocabularul companiei. Este un
+fapt diferit de coloana **Sediu**, care este șantierul *atribuit* angajatului și
+arată o singură valoare pentru toată luna: o zi lucrată la alt șantier se vede
+doar în acel rând, pentru că un terminal înregistrează locația pe care este fixat
+cititorul. O zi împărțită între două locații arată prima cu un `+`.
+
 Ambele raportează orele și **orele planificate** ale turei. O zi fără nimic
 planificat este goală în ambele, chiar dacă cineva a pontat — fișa este orientată
 pe program, deci nu există ore planificate față de care să raporteze munca.
@@ -550,6 +567,76 @@ persoană nu îl arată.
 - Opțiunea **Toate funcțiile** din selector arată pe toată lumea deodată, iar
   legenda listează fiecare tură o singură dată, chiar dacă mai multe funcții o
   împart.
+
+<a id="planning-automation"></a>
+
+### Două etichete în partea de sus: ce scrie singur în planificare
+
+Deasupra grilei, atât în Program cât și în Planificare, două etichete arată dacă
+mecanismele automate sunt active — verde pentru activ, gri pentru inactiv. Ambele
+scriu în planificare fără ca nimeni să apese nimic, deci dacă o grilă s-a
+schimbat peste noapte, ele vă spun care ar fi putut să o facă. Treceți cursorul
+peste oricare pentru explicația completă.
+
+| Etichetă | Ce face |
+|---|---|
+| **⊕ Completare automată a turei la pontare** | Repartizează o zi **goală** atunci când cineva pontează în ea |
+| **◎ Detectare schimbare tură** | Mută o zi **deja repartizată** când pontajul se potrivește mai bine cu altă tură |
+
+Sunt sarcini diferite în mod intenționat, iar o zi poate arăta întâi una, apoi
+cealaltă — completată dimineața, corectată în noaptea următoare. Ambele se
+activează per companie în [Setări](#settings-autofill).
+
+<a id="planning-cells"></a>
+
+### Citirea unei celule
+
+Fiecare celulă este colorată cu culoarea turei și afișează numele scurt al turei
+peste ora de început și cea de final:
+
+```
+  TB
+07:00
+16:00
+```
+
+Trecerea cursorului arată tot ce ține de acea singură zi:
+
+```
+Tura B · 07:00–16:00
+2026-10-14
+Pontaj: 07:12 – 16:03
+Întârziere la intrare
+```
+
+O zi în care nimeni nu a pontat afișează **Fără pontaj** pe a treia linie, în loc
+să o lase goală. Simbolul din colț este verdictul de respectare a programului —
+✓ verde la timp, ✓ ambră întârziere sau plecare devreme, ✗ roșu programat dar
+absent — și stă pe un fond alb, ca să rămână lizibil indiferent de culoarea
+turei.
+
+<a id="planning-select"></a>
+
+### Selectarea mai multor celule
+
+Repartizarea câte un dialog pe rând este lentă, de aceea **celulele libere pot fi
+apăsate pentru a construi o selecție**, iar apoi **Repartizează tura (n)** aplică
+o singură tură tuturor.
+
+- **Doar celulele libere intră în selecție.** O celulă care are deja o tură sau
+  concediu aprobat deschide dialogul ca înainte — editarea acelora este altceva
+  decât repartizarea unei zile goale.
+- **O singură funcție pe rând.** O tură aparține unei funcții, deci o selecție
+  care cuprinde două nu ar putea fi satisfăcută de nicio tură; apăsarea într-o
+  altă funcție începe o selecție nouă, în loc să eșueze la repartizare.
+- **Nimic selectat?** Totul se comportă exact ca înainte.
+- Zilele selectate sunt grupate în serii de date consecutive per angajat, deci
+  două săptămâni pentru patru persoane sunt patru operații, nu cincizeci și șase.
+  Fiecare zi aleasă este respectată, inclusiv weekendurile — le-ați ales
+  deliberat.
+
+Apăsarea pe *Repartizează* preia celulele și golește selecția; anularea
+dialogului înseamnă reselectare.
 
 <a id="planning-assign"></a>
 
@@ -623,6 +710,12 @@ Câte un rând per **zi programată** — `Angajat | Tură | Zi | Intrare | Ieș
 Status | Notă` — unde Intrare și Ieșire sunt prima pontare și ultima ieșire din
 ziua respectivă.
 
+**Fiecare angajat este restrâns**, iar apăsarea pe rândul său îi deschide zilele.
+O lună pentru o funcție ajunge la sute de rânduri, deci antetul poartă totalurile
+care contează — ✓ la timp, ✓ întârziat, ✗ absent, ✓ neplanificat — și numărul de
+zile ascunse. Cineva cu un ✗ roșu rămâne o linie vizibilă, deci restrângerea
+ascunde detaliul, nu semnalul.
+
 **Tabelul se oprește la ziua de azi**, în timp ce grila arată în continuare toată
 luna. Toate coloanele în afară de Tură raportează ce s-a întâmplat efectiv, iar o
 zi viitoare nu are nimic din asta, deci acele rânduri erau o pagină de spații
@@ -634,6 +727,15 @@ dialogul de repartizare.
 |---|---|
 | **Roșu** | Planul a fost încălcat: intrare după început, ieșire înainte de final sau niciun pontaj într-o zi a cărei tură începuse deja |
 | **Mov** | Nu exista plan: s-a lucrat într-o zi fără nimic planificat. Statusul este **Neplanificat**, iar acțiunea oferă *Repartizează tura* în loc de *Golește ziua* |
+
+Coloana **Status** arată și cum a ajuns ziua să fie repartizată:
+
+| Status | Înseamnă |
+|---|---|
+| *(gol)* | Pusă de o persoană |
+| **⇄ Schimbat** | Un schimb de o zi între doi colegi |
+| **⊕ Completat automat** | Scrisă de [completarea automată](#settings-autofill) pentru că cineva a pontat într-o zi nerepartizată. Nota reține ora pontării și tura potrivită |
+| **◎ Detectat automat** | Mutată de detectarea schimbării de tură; treceți cursorul pentru a vedea ce a înlocuit |
 
 „Începuse deja” înseamnă că ziua a trecut sau că este azi și ora de început a
 trecut — deci o tură de mai târziu astăzi nu este încă o absență.
@@ -833,12 +935,49 @@ Meniul de descărcare oferă:
 | **PDF** | Fișa lunară, cu antetul și logoul companiei |
 | **Excel** | Aceleași date, per angajat sau per șantier |
 | **CSV salarizare** | Format pentru programe, **inclusiv tarifele orare** |
+| **Raport întârzieri** | Cine a întârziat sau a plecat devreme, și cu câte minute — vezi mai jos |
 
 Toate trei respectă filtrele setate.
 
 > **Managerii de șantier nu pot descărca niciunul**, chiar dacă pot citi pagina.
 > Fișierul de salarizare conține salarii, iar restricția este aplicată pe server,
 > nu doar prin ascunderea butonului.
+
+---
+
+<a id="report-late"></a>
+
+### Raportul de întârzieri
+
+Disponibil și din *Descarcă Excel* în [Program](#program-export), respectând
+filtrele setate pe pagina de pe care porniți.
+
+Angajații în stânga, zilele deasupra, și șapte rânduri pentru fiecare persoană:
+pontaj intrare, pontaj ieșire, minute întârziere, minute plecare devreme, început
+tură, sfârșit tură și locația pontată. Trei totaluri urmează după ultima zi —
+minute de întârziere, minute de plecare devreme și ore de tură planificate — iar
+**cel cu cele mai multe este primul**, ceea ce este scopul raportului.
+
+Capătul încălcat este colorat: roșu pentru întârziere, ambră pentru plecare
+devreme, iar ora pontării este colorată împreună cu minutele pe care le-a produs.
+
+Patru lucruri pe care nu le face, în mod intenționat:
+
+- **Nicio perioadă de toleranță.** Raportul spune minutele; o toleranță ține de
+  felul în care îl citiți, nu ascunsă în număr.
+- **Angajații fără nicio abatere lipsesc.** Ordonarea este un clasament, iar o
+  foaie plină de rânduri goale ar fi inutilizabilă.
+- **O zi în care nimeni nu a pontat nu produce nimic** — aceea este absență, pe
+  care vederea de pontaj PONTAJ o raportează deja cu un zero roșu.
+- **Turele de noapte arată orele, dar nu minutele.** „HH:mm" nu conține o dată,
+  deci o ieșire la 23:00 pentru o tură 22:00–06:00 s-ar calcula drept șase ore
+  *mai devreme*. O notă pe celulă o spune.
+
+O zi fără tură repartizată se raportează față de programul de lucru al companiei,
+dacă este activat, fapt notat pe celulă.
+
+Doar administratori, ca celelalte exporturi: fișierul numește persoane și
+cuantifică întârzierile lor.
 
 ---
 
@@ -856,7 +995,13 @@ așteptare pune un asterisc pe tabul din navigare.
 `CO` concediu de odihnă · `CFP` fără plată · `MEDICAL` medical · `MARRIAGE`
 căsătorie · `BLOOD_DONATION` donare de sânge · `SPECIAL_EVENTS` evenimente
 speciale · `MILITARY` militar · `FUNERAL` deces · `CHILD_BIRTH` naștere ·
-`EXCUSED` motivat · `ABSENT` absent.
+**`MATERNITY` maternitate** · `EXCUSED` motivat · `ABSENT` absent.
+
+**Maternitatea** este separată de *Naștere copil* în mod intenționat: aceasta din
+urmă este perioada de câteva zile acordată în jurul nașterii, maternitatea este
+perioada statutară lungă, iar un pontaj le raportează separat. Codul său de
+salarizare este `CMAT`, fiindcă `CM` este deja concediu medical, iar `CS` deja
+căsătorie.
 
 <a id="timeoff-read"></a>
 
@@ -987,7 +1132,11 @@ rețeaua unui șantier de obicei nu poate fi apelat din exterior. Numărul de co
 
 ### Jurnalul de pontări
 
-Ultimele 50 de pontări, cu rezultate colorate.
+Cele mai recente zece pontări, iar **Arată încă 10** aduce următoarele zece doar
+când este cerut — jurnalul crește cu fiecare pontare a fiecărui terminal, deci
+încărcarea mai multor decât citiți ar deveni mai lentă săptămână de săptămână.
+Când ajungeți la final, acest lucru este spus, în loc să se ofere un buton care nu
+face nimic.
 
 | Rezultat | Înseamnă |
 |---|---|
@@ -1148,6 +1297,39 @@ Ziua standard a companiei. Orice depășește acest program contează drept **or
 suplimentare** și este desenat mov în calendare și fișe. Este și valoarea de
 rezervă pentru orele precompletate la adăugarea unui pontaj, dacă nu există ture
 definite.
+
+<a id="settings-autofill"></a>
+
+### Completarea automată a turei la pontare
+
+Când cineva pontează într-o zi **fără tură repartizată**, se scrie tura funcției
+sale al cărei început este cel mai apropiat de ora pontării — înainte sau după.
+
+- **Nu modifică niciodată o zi deja repartizată.** De acelea se ocupă detectarea
+  schimbării de tură de mai jos, iar două mecanisme care scriu aceeași zi s-ar
+  anula reciproc.
+- **Doar turele propriei funcții** sunt candidate. Un *Recepționer* care pontează
+  la 08:14 primește tura sa de la 08:30, nu cea de la 08:00 care aparține altei
+  funcții.
+- **Nu se scrie nimic dincolo de două ore** de la cel mai apropiat început. Cu
+  ture la 08:00, 09:00, 12:30 și 13:30, o pontare la 20:00 este „cea mai
+  apropiată" de 13:30 — la șase ore și jumătate — iar repartizarea aceea ar fi o
+  presupunere. Ziua rămâne goală și jurnalul companiei consemnează motivul.
+- Zilele cu **concediu aprobat** sunt sărite, fiindcă planificarea desenează
+  oricum concediul peste tură.
+- Se declanșează la o pontare de la kiosk sau terminal și când un administrator
+  pontează pe cineva, dar **nu** când un administrator introduce un pontaj
+  istoric cu ore explicite — acolo decideți deja dvs.
+
+Zilele completate sunt marcate **⊕ Completat automat** în tabelul planificării, cu
+ora pontării și tura potrivită în notă, deci fiecare este verificabilă.
+
+> **Acest lucru schimbă exportul PONTAJ.** Ambele foi sunt orientate pe program,
+> deci o zi fără repartizare este goală în ambele. Zilele pe care completarea
+> automată le repartizează poartă acum ore planificate acolo unde înainte erau
+> goale. De obicei acesta este chiar scopul activării — dar este un document de
+> salarizare care își schimbă forma, deci activați-o deliberat, nu în mijlocul
+> lunii.
 
 <a id="settings-shiftdetect"></a>
 

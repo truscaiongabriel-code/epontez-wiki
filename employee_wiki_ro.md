@@ -263,7 +263,8 @@ corecție făcută de el este înregistrată cu numele lui.
 | **Evenimente speciale** | |
 | **Militar** | Obligații militare |
 | **Deces** | Deces în familie |
-| **Naștere** | |
+| **Naștere** | Zilele acordate în jurul nașterii |
+| **Maternitate** | Concediu de maternitate — perioada statutară lungă |
 | **Motivat** | Absență motivată |
 | **Absent** | Absență înregistrată |
 

@@ -13,7 +13,7 @@ same order as the navigation bar.
 [Status](#status) · [Clock](#clock) · [Employees](#employees) ·
 [Program](#program) · [Planning](#planning) · [Sites](#sites) ·
 [Incidents](#incidents) · [Partners](#partners) · [Timesheets](#timesheets) ·
-[Time off](#timeoff) · [Terminals](#terminals) · [Plan](#plan) ·
+[Late / early report](#report-late) · [Time off](#timeoff) · [Terminals](#terminals) · [Plan](#plan) ·
 [Settings](#settings) · [Your password](#password)
 
 ---
@@ -31,6 +31,10 @@ Go to `/login` and enter your email and password.
   inactive; ask your super admin to reactivate it.
 - **Changing your password signs out your other sessions.** This is deliberate:
   if someone else knew the old password, their session dies with it.
+- **You stay signed in while you are working.** The session lasts an hour and
+  renews on every page you open, so continuous work never logs you out; an hour
+  of touching nothing does. That means an unattended screen locks itself, and it
+  is also why a tab left open overnight asks you to sign in again.
 
 A language picker sits in the top-right corner of the login page.
 
@@ -248,6 +252,12 @@ the history of a correction survives.
 | Clock out | Closes the open clock-in on each selected day |
 | Final | Both ends on each selected day |
 | Time off | A leave request for each selected day |
+
+**Granting leave without selecting cells** — press *Add time off* with nothing
+selected and you get editable **start and end** dates plus the employee
+checkboxes, so an interval can be granted directly. Select cells first and the
+dates become read-only instead: there the grid *is* the range, and editable
+fields beside highlighted days would contradict them.
 
 You set one site, time(s) and note for the whole batch. Conflicts — approved
 leave on a selected day, an overlapping clocking — are reported before anything
@@ -496,6 +506,13 @@ Two sheets, identical in layout so they line up column for column:
   past month runs to its end; a future month is empty, because nobody can be
   absent from a shift that has not happened.
 
+The **Pontaj** view also carries a per-day row for the **site actually clocked
+at** — labelled *Șantier pontat* or *Sediu pontat* to match your own vocabulary.
+It is a different fact from the **Sediu** column, which is the employee's
+*assigned* site and shows one value for the whole month: a day worked at another
+site is visible only in that row, because a terminal records the site its reader
+is bolted to. A day split between two sites shows the first with a `+`.
+
 Both report the **planned** shift times and hours. A day with nothing rostered is
 blank in both, even if somebody clocked — the sheet is schedule-driven, so there
 are no planned hours to report the work against.
@@ -531,6 +548,72 @@ answers *is every night covered?*, which a per-person calendar cannot.
 - A purple **✓** marks a day somebody worked with **nothing rostered**.
 - An **All roles** option in the role dropdown shows everyone at once; the legend
   lists each shift once even when several roles share it.
+
+<a id="planning-automation"></a>
+
+### Two pills at the top: what writes to this rota by itself
+
+Above the grid, on both Program and Planning, two pills say whether the
+automatic mechanisms are on — green for on, grey for off. Both write to the rota
+with nobody pressing anything, so if a grid changed overnight these tell you
+which could have done it. Hover either for the full explanation.
+
+| Pill | What it does |
+|---|---|
+| **⊕ Auto-fill shift on clock-in** | Rosters a **blank** day when somebody clocks in on it |
+| **◎ Shift-change detection** | Moves a day **already rostered** when the clocking fits another shift better |
+
+They are deliberately different jobs, and a day can show one then the other —
+filled in the morning, corrected the following night. Both are switched on per
+company in [Settings](#settings-autofill).
+
+<a id="planning-cells"></a>
+
+### Reading a cell
+
+Each cell is filled with its shift's colour and stacks the shift's short name
+over its start and end:
+
+```
+  TB
+07:00
+16:00
+```
+
+Hovering gives the whole picture for that one day:
+
+```
+Tura B · 07:00–16:00
+2026-10-14
+Clocked: 07:12 – 16:03
+Late in
+```
+
+A day nobody clocked reads **No clocking** on the third line rather than leaving
+it blank. The corner glyph is the adherence verdict — green ✓ on time, amber ✓
+late in or early out, red ✗ scheduled but absent — and sits on a white backing so
+it stays readable whatever colour the shift is.
+
+<a id="planning-select"></a>
+
+### Selecting several cells at once
+
+Rostering one dialog at a time is slow, so **empty cells can be clicked to build
+a selection**, then **Allocate shift (n)** applies one shift to all of them.
+
+- **Only empty cells join a selection.** A cell that already has a shift, or
+  approved leave, opens the dialog as before — editing one of those is a
+  different act from rostering a blank day.
+- **One function at a time.** A shift belongs to a function, so a selection
+  spanning two could not be satisfied by any one shift; clicking into another
+  function starts a fresh selection rather than failing when you try to allocate.
+- **Nothing selected?** Everything behaves exactly as it always did.
+- Selected days are grouped into runs of consecutive dates per employee, so a
+  fortnight for four people is four operations rather than fifty-six. Every day
+  you picked is honoured, weekends included — you chose them deliberately.
+
+Pressing *Allocate* captures the cells and clears the selection; cancelling the
+dialog means re-selecting.
 
 <a id="planning-assign"></a>
 
@@ -599,6 +682,12 @@ clocked-on-a-leave-day behave identically everywhere.
 One row per **scheduled day** — `Employee | Shift | Day | In | Out | Status |
 Note` — where In and Out are that day's first clock-in and last clock-out.
 
+**Each employee is collapsed**, and clicking their row opens their days. A month
+for one function runs to hundreds of rows, so the header carries the tally that
+matters — ✓ on time, ✓ late, ✗ absent, ✓ unplanned — and the count of hidden
+days. Somebody with a red ✗ is still one visible line, so collapsing hides the
+detail without hiding the signal.
+
 **The table stops at today**, while the grid still shows the whole month. Every
 column except Shift reports what actually happened, and a future day has none of
 it, so those rows were a page of blanks. A past month is complete; a future month
@@ -609,6 +698,15 @@ the grid still opens the assign dialog.
 |---|---|
 | **Red** | The plan was broken: in after the start, out before the end, or no clocking at all on a day whose shift was already due |
 | **Purple** | There was no plan: somebody worked a day with nothing rostered. Status reads **Unplanned**, and the action offers *Assign shift* rather than *Clear this day* |
+
+The **Status** column also distinguishes how a day came to be rostered:
+
+| Status | Meaning |
+|---|---|
+| *(blank)* | Put there by a person |
+| **⇄ Switched** | A one-day swap between two colleagues |
+| **⊕ Auto-filled** | Written by [auto-fill](#settings-autofill) because somebody clocked in on an unrostered day. The note records the clock-in and which shift was matched |
+| **◎ Detected** | Moved by shift-change detection; hover to see what it replaced |
 
 "Already due" means the day is past, or it is today and the shift's start time has
 passed — so a shift later today is not yet a no-show.
@@ -802,12 +900,49 @@ The download menu offers:
 | **PDF** | The monthly timesheet, with your company header and logo |
 | **Excel** | The same data per employee, or per site |
 | **Payroll CSV** | Machine-readable, **including hourly rates** |
+| **Late / early report** | Who arrived late or left early, and by how many minutes — see below |
 
 All three honour the filters you have set.
 
 > **Site managers cannot download any of these**, even if they can read the page.
 > The payroll file contains wages, and that is enforced on the server, not just by
 > hiding the button.
+
+---
+
+<a id="report-late"></a>
+
+### The late / early report
+
+Also under *Download Excel* on [Program](#program-export), and honouring the
+filters set on whichever page you start from.
+
+Employees down the left, days across the top, and seven rows for each person:
+clock-in, clock-out, minutes late, minutes early, shift start, shift end, and the
+site clocked at. Three totals follow the last day — late minutes, early minutes,
+and planned shift hours — and **the worst offender is first**, which is the point
+of the report.
+
+The end that was breached is tinted: red for a late arrival, amber for an early
+departure, and the clock time is tinted with the minutes it produced.
+
+Four things it deliberately does not do:
+
+- **No grace period.** It states the minutes; a tolerance belongs in how you read
+  them, not hidden inside the number.
+- **Employees with no breach are left out.** The ordering is a ranking, and a
+  sheet of blank rows would be unusable.
+- **A day nobody clocked produces nothing** — that is absence, which the PONTAJ
+  clocking view already reports as a red zero.
+- **Overnight shifts show their times but not the minutes.** `HH:mm` carries no
+  date, so a 23:00 clock-out on a 22:00–06:00 shift would compute as six hours
+  *early*. A cell note says so.
+
+A day with no assigned shift falls back to the company work schedule where one is
+enabled, noted on the cell.
+
+Admin-only, like the other exports: the file names individuals and quantifies
+their lateness.
 
 ---
 
@@ -823,8 +958,13 @@ asterisk on the nav tab.
 ### Types
 
 `CO` annual leave · `CFP` unpaid · `MEDICAL` sick · `MARRIAGE` · `BLOOD_DONATION`
-· `SPECIAL_EVENTS` · `MILITARY` · `FUNERAL` · `CHILD_BIRTH` · `EXCUSED` ·
-`ABSENT`.
+· `SPECIAL_EVENTS` · `MILITARY` · `FUNERAL` · `CHILD_BIRTH` · **`MATERNITY`** ·
+`EXCUSED` · `ABSENT`.
+
+**Maternity** is separate from *Child birth* on purpose: the latter is the few
+days granted around a birth, maternity the long statutory period, and a pontaj
+reports them separately. Its payroll code is `CMAT`, since `CM` is already sick
+leave and `CS` already marriage.
 
 <a id="timeoff-read"></a>
 
@@ -954,7 +1094,10 @@ usually not reachable from outside. Pending and failed counts show on the device
 
 ### The punch log
 
-The last 50 punches with colour-coded outcomes.
+The ten most recent punches, with **Show 10 more** fetching the next ten only
+when asked — the log grows with every punch of every terminal, so loading more
+than you read would get slower every week. When you reach the end it says so
+rather than offering a button that does nothing.
 
 | Outcome | Meaning |
 |---|---|
@@ -1110,6 +1253,38 @@ honest without anyone clocking out for lunch.
 Your company's standard day. Anything beyond it counts as **overtime** and is
 drawn purple in the calendars and timesheets. It is also the fallback for the
 pre-filled times when adding a clocking, if no shifts are defined.
+
+<a id="settings-autofill"></a>
+
+### Auto-fill shift on clock-in
+
+When somebody clocks in on a day with **no shift rostered**, writes the shift of
+their own role whose start time is nearest the clock-in — before or after.
+
+- **It never changes a day already rostered.** Correcting those is what
+  shift-change detection below is for, and two mechanisms writing the same day
+  would undo each other.
+- **Only the employee's own role's shifts** are candidates. A *Receptioner* who
+  clocks at 08:14 gets their 08:30 shift, not the 08:00 one belonging to another
+  role.
+- **Nothing is written beyond two hours** from the nearest start. With shifts at
+  08:00, 09:00, 12:30 and 13:30, a 20:00 clock-in is "nearest" to 13:30 — six and
+  a half hours away — and rostering that would be a guess. The day stays blank
+  and the company log records why.
+- Days on **approved leave** are skipped, since the rota draws leave over the
+  shift anyway.
+- It fires on a kiosk or terminal clock-in and on an admin clocking somebody in,
+  but **not** when an admin enters a historical clocking with explicit times —
+  there you are already deciding.
+
+Filled days are marked **⊕ Auto-filled** in the rota table, with the clock-in and
+the matched shift in the note, so every one is auditable.
+
+> **This changes the PONTAJ export.** Both sheets are schedule-driven, so a day
+> with no assignment is blank in both. Days that auto-fill rosters now carry
+> planned hours where they were previously empty. That is usually the point of
+> switching it on — but it is a payroll document changing shape, so turn it on
+> deliberately rather than mid-month.
 
 <a id="settings-shiftdetect"></a>
 

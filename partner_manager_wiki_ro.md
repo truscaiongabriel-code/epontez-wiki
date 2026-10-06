@@ -46,6 +46,9 @@ Accesați `/login` cu emailul și parola.
   cât timp contul este inactiv. Cereți administratorului companiei să vă
   reactiveze.
 - Schimbarea parolei încheie sesiunile din celelalte browsere.
+- **Rămâneți conectat cât timp lucrați.** Sesiunea durează o oră și se reînnoiește
+  la fiecare pagină deschisă, deci munca continuă nu vă deconectează; o oră fără
+  nicio acțiune o face.
 
 Selectorul de limbă — **română, engleză, germană** — este în dreapta sus.
 
@@ -189,6 +192,11 @@ ora sunt marcate automat. Notele se completează, nu se suprascriu niciodată.
 | Pontare ieșire | Închide pontajul deschis din fiecare zi |
 | Final | Ambele capete în fiecare zi |
 | Concediu | O cerere per zi — **refuzată pentru angajații asociați unui partener** |
+
+Cu nimic selectat, *Adaugă concediu* oferă acum date de **început și sfârșit**
+editabile, nu doar ziua de azi. Refuză în continuare angajații asociați unui
+partener, deci pentru oamenii dvs. dialogul este de puțin folos — concediul se
+aranjează prin propriul lor angajator.
 
 Un singur șantier, ore și notă pentru tot lotul. Conflictele sunt raportate înainte
 de a se salva ceva.

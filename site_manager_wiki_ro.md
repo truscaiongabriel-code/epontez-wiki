@@ -58,6 +58,9 @@ Accesați `/login` cu emailul și parola.
 - **Cont dezactivat** — primiți un mesaj specific, iar resetarea parolei nu ajută.
   Cereți unui administrator să vă reactiveze.
 - Schimbarea parolei încheie sesiunile din celelalte browsere.
+- **Rămâneți conectat cât timp lucrați.** Sesiunea durează o oră și se reînnoiește
+  la fiecare pagină deschisă, deci munca continuă nu vă deconectează; o oră fără
+  nicio acțiune o face.
 
 Selectorul de limbă — **română, engleză, germană** — este în dreapta sus.
 
@@ -232,6 +235,11 @@ completează, nu se suprascriu.
 | Pontare ieșire | Închide pontajul deschis din fiecare zi |
 | Final | Ambele capete în fiecare zi |
 | Concediu | O cerere de concediu per zi |
+
+**Acordarea concediului fără a selecta celule** — apăsați *Adaugă concediu* cu
+nimic selectat și datele de început și sfârșit devin editabile, deci un interval
+poate fi acordat direct. Dacă selectați mai întâi celule, datele sunt needitabile,
+fiindcă acolo grila este intervalul.
 
 Un singur șantier, ore și notă pentru tot lotul. Conflictele sunt raportate înainte
 de a se salva ceva.
@@ -413,6 +421,25 @@ de angajați.
 
 ## Planificare
 
+> **Acum puteți edita.** Acordarea secțiunii Program lăsa Planificarea lizibilă
+> dar inutilă pentru dvs. — orice modificare era refuzată. Acum puteți repartiza,
+> goli, schimba și repartiza în masă ture pentru **angajații al căror șantier
+> implicit este unul dintre ale dvs., plus oricine nu are deloc un șantier
+> implicit**. Partea a doua contează: fără ea, un angajat neatribuit nu ar putea
+> fi planificat de nimeni în afară de un administrator complet, iar aceia sunt
+> exact oamenii care au cel mai des nevoie de acoperire.
+>
+> Un angajat de la alt șantier este refuzat pe nume. Un **schimb necesită ambele
+> părți** în aria dvs., fiindcă rescrie zilele a două persoane, iar a avea una
+> dintre ele nu înseamnă autoritate asupra celeilalte.
+>
+> Numele dvs. este înregistrat pe tot ce modificați, în repartizare și în
+> jurnalul companiei.
+>
+> Biblioteca de **ture** rămâne doar pentru administratori. O tură aparține
+> companiei, deci crearea sau ștergerea ei afectează fiecare șantier și nu poate
+> fi limitată la ale dvs. — repartizați ture, nu le definiți.
+
 Se ajunge din butonul **Planificare** de pe o funcție din Program. Se acordă
 împreună cu Program.
 
@@ -425,6 +452,48 @@ acoperită fiecare noapte?*. Fiecare tură are o culoare stabilă, weekendurile 
 roz, sărbătorile ambră, iar un **✓** mov marchează o zi lucrată **fără nimic
 planificat**. Opțiunea **Toate funcțiile** arată pe toți, cu fiecare tură listată o
 singură dată în legendă.
+
+<a id="planning-automation"></a>
+
+### Două etichete în partea de sus
+
+Deasupra grilei, două etichete arată dacă mecanismele automate sunt active — verde
+pentru activ, gri pentru inactiv. Ambele scriu în planificare fără ca nimeni să
+apese nimic, deci dacă o grilă s-a schimbat peste noapte, ele spun care ar fi
+putut să o facă.
+
+| Etichetă | Ce face |
+|---|---|
+| **⊕ Completare automată a turei la pontare** | Repartizează o zi **goală** când cineva pontează în ea |
+| **◎ Detectare schimbare tură** | Mută o zi **deja repartizată** când pontajul se potrivește mai bine cu altă tură |
+
+Ambele se activează per companie de către un administrator, în Setări — pe care nu
+le puteți deschide, deci etichetele sunt modul în care aflați.
+
+<a id="planning-cells"></a>
+
+### Citirea unei celule
+
+Fiecare celulă poartă culoarea turei sale și afișează numele scurt peste orele de
+început și final. Trecerea cursorului arată toată ziua: tura și orele ei, data, ce
+s-a pontat efectiv (sau **Fără pontaj**) și verdictul de respectare a programului.
+Simbolul din colț este acel verdict — ✓ verde la timp, ✓ ambră întârziat sau
+plecat devreme, ✗ roșu absent.
+
+<a id="planning-select"></a>
+
+### Selectarea mai multor celule
+
+**Celulele libere pot fi apăsate pentru a construi o selecție**, apoi
+**Repartizează tura (n)** aplică o singură tură tuturor.
+
+- Doar celulele libere intră în selecție; una cu tură sau concediu deschide
+  dialogul ca înainte.
+- **O singură funcție pe rând** — o tură aparține unei funcții, deci apăsarea
+  într-alta începe o selecție nouă.
+- Nimic selectat? Totul se comportă ca înainte.
+- Se aplică aceeași limitare pe șantiere: o selecție poate conține doar angajați
+  pe care îi puteți planifica.
 
 <a id="planning-assign"></a>
 
@@ -477,6 +546,15 @@ continuare.
 Câte un rând per **zi programată** — `Angajat | Tură | Zi | Intrare | Ieșire |
 Status | Notă`, unde Intrare și Ieșire sunt prima pontare și ultima ieșire din acea
 zi.
+
+**Fiecare angajat este restrâns**; apăsați pe rândul său pentru a-i deschide
+zilele. Antetul păstrează totalurile — ✓ la timp, ✓ întârziat, ✗ absent, ✓
+neplanificat — și numărul de zile ascunse, deci cineva cu un ✗ roșu rămâne o linie
+vizibilă.
+
+Coloana **Status** spune cum a ajuns ziua să fie repartizată: gol pentru o
+persoană, **⇄ Schimbat** pentru un schimb de o zi, **⊕ Completat automat** când o
+pontare a repartizat-o, **◎ Detectat automat** când detectarea a mutat-o.
 
 **Tabelul se oprește la ziua de azi**, în timp ce grila arată toată luna: toate
 coloanele în afară de Tură raportează ce s-a întâmplat, iar o zi viitoare nu are
@@ -654,7 +732,11 @@ navigare.
 `CO` concediu de odihnă · `CFP` fără plată · `MEDICAL` medical · `MARRIAGE`
 căsătorie · `BLOOD_DONATION` donare de sânge · `SPECIAL_EVENTS` evenimente
 speciale · `MILITARY` militar · `FUNERAL` deces · `CHILD_BIRTH` naștere ·
-`EXCUSED` motivat · `ABSENT` absent.
+**`MATERNITY` maternitate** · `EXCUSED` motivat · `ABSENT` absent.
+
+**Maternitatea** este separată de *Naștere copil*: aceasta din urmă este perioada
+de câteva zile din jurul nașterii, maternitatea este perioada statutară lungă, iar
+un pontaj le raportează separat.
 
 <a id="timeoff-read"></a>
 
@@ -736,7 +818,8 @@ nu poate fi apelat din exterior.
 
 ### Jurnalul de pontări
 
-Ultimele 50 de pontări, cu rezultate colorate.
+Cele mai recente zece pontări, iar **Arată încă 10** aduce următoarele zece doar
+când este cerut.
 
 | Rezultat | Înseamnă |
 |---|---|

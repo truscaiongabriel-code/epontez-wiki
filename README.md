@@ -58,11 +58,12 @@ would make a language-independent link impossible.
 | `clock-*` | Clocking: views, colours, bulk actions, manual entry, the lock |
 | `employees-*` | The workforce, CSV, fingerprint enrolment |
 | `program-*` | Roles, the shift library, the PONTAJ export |
-| `planning-*` | The rota grid, assignment, swaps, leave from the grid |
+| `planning-*` | The rota grid, assignment, swaps, leave from the grid, cell selection, the automation pills |
 | `sites-*` | Sites, coordinates, per-site auto clock-out |
 | `incidents-*` | The Legea 319/2006 register |
 | `partners` | Collaborator companies |
 | `timesheets-*` | Hours, location pins, downloads |
+| `report-late` | The late / early report |
 | `timeoff-*` | Leave types, reading the table, actions |
 | `terminals-*` | Fingerprint readers, mapping, push, punch log |
 | `plan-*` | Cars, accommodation, the assignment screen |
@@ -93,7 +94,8 @@ the part most easily lost, so prefer updating a paragraph to deleting it.
 Worth re-checking after a release:
 
 - **Navigation** — the ten sections and their Romanian labels.
-- **Thresholds stated in prose** — the 15-minute shift grace, the 60-second
+- **Thresholds stated in prose** — the 15-minute shift grace, the two-hour
+  auto-fill window, the one-hour session, the 60-second
   terminal debounce, the 5-minute offline badge, the 500 m default radius and its
   25 m floor, 180-day location retention, the 48-hour name-edit window, the
   450-employee export cap.

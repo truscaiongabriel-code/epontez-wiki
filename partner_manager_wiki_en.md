@@ -45,6 +45,9 @@ Go to `/login` with your email and password.
 - **Deactivated account** — you get a specific message, and a password reset will
   not help while inactive. Ask the company's administrator to reactivate you.
 - Changing your password ends your sessions in other browsers.
+- **You stay signed in while you work.** The session lasts an hour and renews on
+  every page you open, so continuous work never signs you out; an hour of
+  touching nothing does.
 
 A language picker — **English, Romanian, German** — is in the top-right corner.
 
@@ -185,6 +188,11 @@ automatically. Notes are only ever added to, never overwritten.
 | Clock out | Closes the open clock-in on each selected day |
 | Final | Both ends on each selected day |
 | Time off | A leave request per day — **refused for partner-linked employees** |
+
+With nothing selected, *Add time off* now offers editable **start and end** dates
+rather than only today. It still refuses partner-linked employees, so for your
+people the dialog is of little use — leave is arranged through their own
+employer.
 
 One site, time(s) and note for the whole batch. Conflicts are reported before
 anything is saved.

@@ -263,7 +263,8 @@ correction they make is recorded with their name.
 | **Special events** | |
 | **Military** | Military obligations |
 | **Funeral** | Bereavement |
-| **Child birth** | |
+| **Child birth** | The few days granted around a birth |
+| **Maternity** | Maternity leave — the long statutory period |
 | **Excused** | Excused absence |
 | **Absent** | Recorded absence |
 
